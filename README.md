@@ -1,6 +1,6 @@
 # timetracker-client
 
-Client for real time time tracking app
+Vue2 Client for real time time tracking app
 
 ## Build Setup
 

@@ -1,24 +1,29 @@
 <template lang="html">
   <div id="app">
-    <navigation/>
-    <section class="section">
-      <router-view></router-view>
-    </section>
+    <navbar/>
+    <div class="content">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <script>
-import navigation from './components/navigation';
+import navbar from './components/navbar';
 
 export default {
   name: 'app',
-  components: { navigation },
+  components: { navbar },
 };
 </script>
 
 <style>
-html {
-  position: relative;
-  min-height: 100%;
+html,
+body {
+  height: 100%
+}
+
+.content {
+  display: flex;
+  height: calc(100vh - 56px);
 }
 </style>
