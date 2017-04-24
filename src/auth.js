@@ -1,54 +1,70 @@
-import Auth0Lock from 'auth0-lock';
+import Auth0 from 'auth0-js';
 import axios from 'axios';
 
-const clientId = process.env.AUTH0_CLIENT_ID;
-const domain = process.env.AUTH0_DOMAIN;
-const lockOptions = {
-  theme: {
-    primaryColor: '#34495e',
-  },
-  languageDictionary: {
-    emailInputPlaceholder: 'email@example.com',
-    title: '',
-    passwordInputPlaceholder: 'password',
-  },
+const auth0 = new Auth0.WebAuth({
+  domain: process.env.AUTH0_DOMAIN,
+  clientID: process.env.AUTH0_CLIENT_ID,
+  responseType: 'token id_token',
+  redirectUri: `${window.location.origin}/`,
+});
+
+const login = (email, password) => {
+  auth0.redirect.loginWithCredentials({
+    connection: 'Username-Password-Authentication',
+    responseType: 'token id_token',
+    email,
+    password,
+    scope: 'openid',
+  }, (err) => {
+    if (err) {
+      // TODO handle error
+    }
+  });
 };
 
-const lock = new Auth0Lock(clientId, domain, lockOptions);
-
-function logout() {
+const logout = () => {
   localStorage.removeItem('profile');
   localStorage.removeItem('id_token');
-}
+};
 
-function getAuthHeader() {
-  return `Bearer ${localStorage.getItem('id_token')}`;
-}
+const getAuthHeader = () => `Bearer ${localStorage.getItem('id_token')}`;
 
-function checkAuth() {
-  return !!localStorage.getItem('id_token');
-}
+const checkAuth = () => !!localStorage.getItem('id_token');
 
-function requireAuth(to, from, next) {
+const requireAuth = (to, from, next) => {
   if (!checkAuth()) {
-    next({
-      path: '/login',
+    const path = auth0.parseHash(window.location.hash, (err, authResult) => {
+      if (err) {
+        // TODO handle error
+      }
+
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        window.location.hash = '';
+        localStorage.setItem('access_token', authResult.accessToken);
+        localStorage.setItem('id_token', authResult.idToken);
+        localStorage.setItem('profile', auth0.client.userInfo(authResult.accessToken, (userErr, user) => user));
+        return '/';
+      }
+
+      return '/login';
     });
+
+    next({ path });
   } else {
     next();
   }
-}
+};
 
-function setAuthHeader() {
+const setAuthHeader = () => {
   if (localStorage.getItem('id_token')) {
     axios.defaults.headers.common.Authorization = getAuthHeader();
   }
-}
+};
 
 setAuthHeader();
 
 export default {
-  lock,
+  login,
   logout,
   checkAuth,
   getAuthHeader,

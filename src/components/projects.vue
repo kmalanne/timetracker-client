@@ -43,8 +43,7 @@ export default {
           name: 'project',
         },
       ];
-      // const url = 'url';
-      // this.projects = axios.get()
+      // this.projects = axios.get('/project')
       //   .then(response => response.body)
       //   .catch(err => err);
     },
@@ -65,6 +64,8 @@ export default {
   display: flex;
   width: 300px;
   background-color: #292b2c;
+  margin: 20px;
+  border-radius: 5px;
 }
 
 .sidebar {
@@ -74,19 +75,19 @@ export default {
 .project-list {
   width: 100%;
   list-style-type: none;
-  padding: 0px 4px;
+  padding: 5px;
 }
 
 .project-item {
-  padding: 4px;
+  padding: 8px;
   color: #fff;
-  margin-bottom: 10px;
+  margin: 8px;
   vertical-align: middle;
 }
 
 .project-item:hover {
   background-color: #757575;
-  border-left: 4px solid #fff;
+  border-radius: 4px;
 }
 
 h4 {

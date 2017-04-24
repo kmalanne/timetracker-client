@@ -37,7 +37,7 @@
 import auth from '@/auth';
 
 export default {
-  name: 'navigation',
+  name: 'navbar',
 
   methods: {
     logout() {

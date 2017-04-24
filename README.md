@@ -1,6 +1,6 @@
 # timetracker-client
 
-Vue2 Client for real time time tracking app
+VueJS client for real time time tracking app. Backend can be found from https://github.com/kmalanne/timetracker-backend.
 
 ## Build Setup
 
