@@ -1,5 +1,8 @@
 import Auth0 from 'auth0-js';
-import axios from 'axios';
+import decode from 'jwt-decode';
+
+const ID_TOKEN = 'id_token';
+const PROFILE = 'profile';
 
 const auth0 = new Auth0.WebAuth({
   domain: process.env.AUTH0_DOMAIN,
@@ -7,6 +10,17 @@ const auth0 = new Auth0.WebAuth({
   responseType: 'token id_token',
   redirectUri: `${window.location.origin}/`,
 });
+
+const setIdToken = (idToken) => {
+  localStorage.setItem(ID_TOKEN, idToken);
+};
+
+const setProfile = (profile) => {
+  localStorage.setItem(PROFILE, JSON.stringify(profile));
+};
+
+const getIdToken = () => localStorage.getItem(ID_TOKEN);
+const getProfile = () => JSON.parse(localStorage.getItem(PROFILE));
 
 const login = (email, password) => {
   auth0.redirect.loginWithCredentials({
@@ -23,16 +37,34 @@ const login = (email, password) => {
 };
 
 const logout = () => {
-  localStorage.removeItem('profile');
-  localStorage.removeItem('id_token');
+  localStorage.removeItem(ID_TOKEN);
+  localStorage.removeItem(PROFILE);
 };
 
-const getAuthHeader = () => `Bearer ${localStorage.getItem('id_token')}`;
+const getTokenExpirationDate = (encodedToken) => {
+  const token = decode(encodedToken);
+  if (!token.exp) {
+    return null;
+  }
 
-const checkAuth = () => !!localStorage.getItem('id_token');
+  const date = new Date(0);
+  date.setUTCSeconds(token.exp);
+
+  return date;
+};
+
+const isTokenExpired = (token) => {
+  const expirationDate = getTokenExpirationDate(token);
+  return expirationDate < new Date();
+};
+
+const isLoggedIn = () => {
+  const idToken = getIdToken();
+  return !!idToken && !isTokenExpired(idToken);
+};
 
 const requireAuth = (to, from, next) => {
-  if (!checkAuth()) {
+  if (!isLoggedIn()) {
     const path = auth0.parseHash(window.location.hash, (err, authResult) => {
       if (err) {
         // TODO handle error
@@ -40,9 +72,16 @@ const requireAuth = (to, from, next) => {
 
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
-        localStorage.setItem('access_token', authResult.accessToken);
-        localStorage.setItem('id_token', authResult.idToken);
-        localStorage.setItem('profile', auth0.client.userInfo(authResult.accessToken, (userErr, user) => user));
+        setIdToken(authResult.idToken);
+
+        auth0.client.userInfo(authResult.accessToken, (userErr, user) => {
+          if (userErr) {
+            // TODO handle error
+          }
+
+          setProfile(user);
+        });
+
         return '/';
       }
 
@@ -55,18 +94,11 @@ const requireAuth = (to, from, next) => {
   }
 };
 
-const setAuthHeader = () => {
-  if (localStorage.getItem('id_token')) {
-    axios.defaults.headers.common.Authorization = getAuthHeader();
-  }
-};
-
-setAuthHeader();
-
-export default {
+export {
   login,
   logout,
-  checkAuth,
-  getAuthHeader,
+  isLoggedIn,
   requireAuth,
+  getIdToken,
+  getProfile,
 };

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-// import axios from 'axios';
+// import api from '@/utils/api';
 
 export default {
   name: 'projects',
@@ -43,9 +43,7 @@ export default {
           name: 'project',
         },
       ];
-      // this.projects = axios.get('/project')
-      //   .then(response => response.body)
-      //   .catch(err => err);
+      // this.projects = api.getProjects();
     },
   },
 

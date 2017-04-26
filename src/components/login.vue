@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import auth from '@/auth';
+import { login } from '@/auth';
 
 export default {
   name: 'login',
@@ -40,7 +40,7 @@ export default {
 
   methods: {
     login() {
-      auth.login(this.email, this.password);
+      login(this.email, this.password);
     },
   },
 };
