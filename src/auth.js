@@ -1,8 +1,6 @@
 import Auth0 from 'auth0-js';
-import decode from 'jwt-decode';
-
-const ID_TOKEN = 'id_token';
-const PROFILE = 'profile';
+import axios from 'axios';
+import store from './store';
 
 const auth0 = new Auth0.WebAuth({
   domain: process.env.AUTH0_DOMAIN,
@@ -11,60 +9,8 @@ const auth0 = new Auth0.WebAuth({
   redirectUri: `${window.location.origin}/`,
 });
 
-const setIdToken = (idToken) => {
-  localStorage.setItem(ID_TOKEN, idToken);
-};
-
-const setProfile = (profile) => {
-  localStorage.setItem(PROFILE, JSON.stringify(profile));
-};
-
-const getIdToken = () => localStorage.getItem(ID_TOKEN);
-const getProfile = () => JSON.parse(localStorage.getItem(PROFILE));
-
-const login = (email, password) => {
-  auth0.redirect.loginWithCredentials({
-    connection: 'Username-Password-Authentication',
-    responseType: 'token id_token',
-    email,
-    password,
-    scope: 'openid',
-  }, (err) => {
-    if (err) {
-      // TODO handle error
-    }
-  });
-};
-
-const logout = () => {
-  localStorage.removeItem(ID_TOKEN);
-  localStorage.removeItem(PROFILE);
-};
-
-const getTokenExpirationDate = (encodedToken) => {
-  const token = decode(encodedToken);
-  if (!token.exp) {
-    return null;
-  }
-
-  const date = new Date(0);
-  date.setUTCSeconds(token.exp);
-
-  return date;
-};
-
-const isTokenExpired = (token) => {
-  const expirationDate = getTokenExpirationDate(token);
-  return expirationDate < new Date();
-};
-
-const isLoggedIn = () => {
-  const idToken = getIdToken();
-  return !!idToken && !isTokenExpired(idToken);
-};
-
 const requireAuth = (to, from, next) => {
-  if (!isLoggedIn()) {
+  if (!store.getters.isLoggedIn) {
     const path = auth0.parseHash(window.location.hash, (err, authResult) => {
       if (err) {
         // TODO handle error
@@ -72,14 +18,18 @@ const requireAuth = (to, from, next) => {
 
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
-        setIdToken(authResult.idToken);
+        store.dispatch('SET_TOKEN', authResult.idToken);
+        axios.defaults.headers.common.Authorization = `Bearer ${authResult.idToken}`;
 
         auth0.client.userInfo(authResult.accessToken, (userErr, user) => {
           if (userErr) {
             // TODO handle error
           }
+          store.dispatch('SET_PROFILE', user);
 
-          setProfile(user);
+          // User information is needed for loading initial data and components are
+          // mounted before userInfo is gotten from Auth0 so loading is done here.
+          store.dispatch('LOAD_PROJECT_LIST');
         });
 
         return '/';
@@ -95,10 +45,6 @@ const requireAuth = (to, from, next) => {
 };
 
 export {
-  login,
-  logout,
-  isLoggedIn,
+  auth0,
   requireAuth,
-  getIdToken,
-  getProfile,
 };

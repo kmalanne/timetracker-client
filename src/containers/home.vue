@@ -1,15 +1,15 @@
 <template lang="html">
   <div id="home">
-    <projects/>
+    <sidebar/>
   </div>
 </template>
 
 <script>
-import projects from '@/components/projects';
+import sidebar from '@/components/sidebar';
 
 export default {
   name: 'home',
-  components: { projects },
+  components: { sidebar },
 };
 </script>
 

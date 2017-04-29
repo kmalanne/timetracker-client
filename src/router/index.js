@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { requireAuth } from './auth';
-import home from './containers/home';
-import timeEntries from './containers/timeEntries';
-import login from './components/login';
+import { requireAuth } from '@/auth';
+import home from '@/containers/home';
+import timeEntries from '@/containers/timeEntries';
+import login from '@/components/login';
 
 Vue.use(Router);
 

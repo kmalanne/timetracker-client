@@ -1,22 +1,22 @@
 <template lang="html">
-  <div id="projects">
-    <div class="sidebar-wrapper">
-      <div class="sidebar">
-        <ul class="project-list">
-          <li class="project-item" v-for="item in projects">
-            <h4>{{ item.name }}</h4>
-          </li>
-        </ul>
-      </div>
-    </div>
+  <div id="project-list">
+    <ul class="project-list">
+      <li class="project-item" v-for="item in projects">
+        <h4>{{ item.name }}</h4>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-// import api from '@/utils/api';
-
 export default {
-  name: 'projects',
+  name: 'projectList',
+
+  // computed: {
+  //   projects() {
+  //     return this.$store.state.projects;
+  //   },
+  // },
 
   data() {
     return {
@@ -43,7 +43,6 @@ export default {
           name: 'project',
         },
       ];
-      // this.projects = api.getProjects();
     },
   },
 
@@ -54,20 +53,8 @@ export default {
 </script>
 
 <style scoped>
-#projects {
+#project-list {
   display: flex;
-}
-
-.sidebar-wrapper {
-  display: flex;
-  width: 300px;
-  background-color: #292b2c;
-  margin: 20px;
-  border-radius: 5px;
-}
-
-.sidebar {
-  width: 100%
 }
 
 .project-list {

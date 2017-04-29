@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { login } from '@/auth';
-
 export default {
   name: 'login',
 
@@ -40,7 +38,7 @@ export default {
 
   methods: {
     login() {
-      login(this.email, this.password);
+      this.$store.dispatch('LOGIN', { email: this.email, password: this.password });
     },
   },
 };

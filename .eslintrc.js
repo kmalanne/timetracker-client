@@ -29,6 +29,10 @@ module.exports = {
       'js': 'never',
       'vue': 'never'
     }],
+    // allow param reassign to enable vuex state change
+    "no-param-reassign": [2, {
+      "props": false
+    }],
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {
       'optionalDependencies': ['test/unit/index.js']

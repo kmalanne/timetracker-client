@@ -34,19 +34,17 @@
 </template>
 
 <script>
-import { logout, isLoggedIn } from '@/auth';
-
 export default {
   name: 'navbar',
 
   methods: {
     logout() {
-      logout();
+      this.$store.dispatch('LOGOUT');
       this.$router.push('/login');
     },
 
     isLoggedIn() {
-      return isLoggedIn();
+      return this.$store.getters.isLoggedIn;
     },
   },
 };
