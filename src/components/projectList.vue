@@ -1,10 +1,19 @@
 <template lang="html">
   <div id="project-list">
-    <ul class="project-list">
-      <li class="project-item" v-for="item in projects">
-        <h4>{{ item.name }}</h4>
-      </li>
-    </ul>
+    <div class="project-list">
+      <div class="project-item" v-for="project in projects" 
+        :class="{ editing: project == editedProject }">
+        <div class="view">
+          <h4 @dblclick="editProject(project)">{{ project.name }}</h4>
+        </div>
+          <input class="edit" type="text"
+          v-model="project.name"
+          v-project-focus="project == editedProject"
+          @blur="doneEdit(project)"
+          @keyup.enter="doneEdit(project)"
+          @keyup.esc="cancelEdit(project)">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,9 +27,14 @@ export default {
   //   },
   // },
 
+  mounted() {
+    this.loadProjects();
+  },
+
   data() {
     return {
       projects: [],
+      editedProject: null,
     };
   },
 
@@ -28,26 +42,51 @@ export default {
     loadProjects() {
       this.projects = [
         {
+          id: "id",
+          name: 'loooooooooooooooongproject',
+        },
+        {
+          id: "id2",
           name: 'project',
         },
         {
-          name: 'project',
-        },
-        {
-          name: 'project',
-        },
-        {
-          name: 'project',
-        },
-        {
+          id: "id3",
           name: 'project',
         },
       ];
     },
+
+    editProject(project) {
+      this.beforeEditCache = project.name;
+      this.editedProject = project;
+    },
+
+    doneEdit(project) {
+      if (!this.editedProject) {
+        return;
+      }
+
+      this.editedProject = null;
+      project.name = project.name.trim();
+      if (!project.name) {
+        // Delete project?
+      }
+
+      this.$store.dispatch('UPDATE_PROJECT', { project });
+    },
+
+    cancelEdit(project) {
+      this.editedProject = null;
+      project.name = this.beforeEditCache;
+    },
   },
 
-  mounted() {
-    this.loadProjects();
+  directives: {
+    'project-focus': (el, binding) => {
+      if (binding.value) {
+        el.focus();
+      }
+    },
   },
 };
 </script>
@@ -58,12 +97,14 @@ export default {
 }
 
 .project-list {
-  width: 100%;
-  list-style-type: none;
+  flex: 1 1 auto;
   padding: 5px;
+  overflow-y: auto;
+  list-style-type: none;
 }
 
 .project-item {
+  display: flex;
   padding: 8px;
   color: #fff;
   margin: 8px;
@@ -75,7 +116,32 @@ export default {
   border-radius: 4px;
 }
 
+.project-item .view {
+  overflow: hidden;
+}
+
+.project-item .edit {
+  display: none;
+}
+
+.project-item.editing .view {
+  display: none;
+}
+
+.project-item.editing .edit {
+  display: flex;
+}
+
+.project-item input {
+  flex: 1;
+  line-height: 35px;
+  font-size: 23px;
+}
+
 h4 {
   margin-bottom: 4px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>

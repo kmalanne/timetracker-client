@@ -2,6 +2,7 @@
   <div id="sidebar">
     <div class="sidebar-wrapper">
       <div class="sidebar-content">
+        <projectInput/>
         <projectList/>
       </div>
     </div>
@@ -9,11 +10,12 @@
 </template>
 
 <script>
+import projectInput from './projectInput';
 import projectList from './projectList';
 
 export default {
   name: 'sidebar',
-  components: { projectList },
+  components: { projectInput, projectList },
 };
 </script>
 
@@ -31,6 +33,9 @@ export default {
 }
 
 .sidebar-content {
-  width: 100%
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%
 }
 </style>

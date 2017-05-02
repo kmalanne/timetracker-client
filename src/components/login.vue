@@ -8,7 +8,7 @@
           <input type="email"
                  class="form-control"
                  v-model="email"
-                 placeholder="uliuli@uli.com">
+                 placeholder="your@email.com">
         </div>
         <div class="form-group">
           <input type="password"
