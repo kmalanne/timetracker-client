@@ -2,7 +2,10 @@
   <div id="sidebar">
     <div class="sidebar-wrapper">
       <div class="sidebar-content">
-        <projectInput/>
+        <div class="header">
+          <h2>Projects</h2>
+        </div>
+        <newProjectButton/>
         <projectList/>
       </div>
     </div>
@@ -10,12 +13,12 @@
 </template>
 
 <script>
-import projectInput from './projectInput';
+import newProjectButton from './newProjectButton';
 import projectList from './projectList';
 
 export default {
   name: 'sidebar',
-  components: { projectInput, projectList },
+  components: { newProjectButton, projectList },
 };
 </script>
 
@@ -27,9 +30,9 @@ export default {
 .sidebar-wrapper {
   display: flex;
   width: 300px;
-  background-color: #292b2c;
+  background-color: #fff;
+  color: #fff;
   margin: 20px;
-  border-radius: 5px;
 }
 
 .sidebar-content {
@@ -37,5 +40,12 @@ export default {
   flex-direction: column;
   width: 100%;
   height: 100%
+}
+
+h2 {
+  background-color: #7e57c2;
+  padding-left: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 </style>

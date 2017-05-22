@@ -42,15 +42,15 @@ export default {
     loadProjects() {
       this.projects = [
         {
-          id: "id",
+          id: 'id',
           name: 'loooooooooooooooongproject',
         },
         {
-          id: "id2",
+          id: 'id2',
           name: 'project',
         },
         {
-          id: "id3",
+          id: 'id3',
           name: 'project',
         },
       ];
@@ -99,6 +99,7 @@ export default {
 .project-list {
   flex: 1 1 auto;
   padding: 5px;
+  margin-top: 15px;
   overflow-y: auto;
   list-style-type: none;
 }
@@ -106,14 +107,13 @@ export default {
 .project-item {
   display: flex;
   padding: 8px;
-  color: #fff;
+  color: #494949;
   margin: 8px;
   vertical-align: middle;
 }
 
 .project-item:hover {
-  background-color: #757575;
-  border-radius: 4px;
+  border-left: 3px solid #7e57c2;
 }
 
 .project-item .view {
@@ -136,6 +136,8 @@ export default {
   flex: 1;
   line-height: 35px;
   font-size: 23px;
+  border: none;
+  outline: none;
 }
 
 h4 {

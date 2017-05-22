@@ -17,5 +17,6 @@ export default {
 #home {
   display: flex;
   flex: 1;
+  background-color: #eceff1;
 }
 </style>

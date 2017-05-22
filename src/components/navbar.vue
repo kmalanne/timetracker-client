@@ -1,5 +1,5 @@
 <template lang="html">
-  <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse" v-if="isLoggedIn()">
+  <nav class="navbar navbar-toggleable-md navbar-inverse" v-if="isLoggedIn()">
     <button class="navbar-toggler navbar-toggler-right"
             type="button"
             data-toggle="collapse"
@@ -49,3 +49,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.navbar-inverse {
+  background-color: #7e57c2 !important;
+}
+</style>
