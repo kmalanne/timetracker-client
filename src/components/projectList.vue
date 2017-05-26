@@ -1,10 +1,11 @@
 <template lang="html">
   <div id="project-list">
     <div class="project-list">
-      <div class="project-item" v-for="project in projects" 
-        :class="{ editing: project == editedProject }">
-        <div class="view">
+      <div class="project-list-item" v-for="project in projects" 
+        :class="{ editing: project == editedProject, selected: project == selectedProject }">
+        <div class="view" @click="selectProject(project)">
           <h4 @dblclick="editProject(project)">{{ project.name }}</h4>
+          <h6>{{ project.url }}</h6>
         </div>
           <input class="edit" type="text"
           v-model="project.name"
@@ -35,6 +36,7 @@ export default {
     return {
       projects: [],
       editedProject: null,
+      selectedProject: null,
     };
   },
 
@@ -44,14 +46,17 @@ export default {
         {
           id: 'id',
           name: 'loooooooooooooooongproject',
+          url: 'https://www.url.com',
         },
         {
           id: 'id2',
           name: 'project',
+          url: 'https://www.url.com',
         },
         {
           id: 'id3',
           name: 'project',
+          url: 'https://www.url.com',
         },
       ];
     },
@@ -79,6 +84,11 @@ export default {
       this.editedProject = null;
       project.name = this.beforeEditCache;
     },
+
+    selectProject(project) {
+      this.selectedProject = project;
+      this.$store.dispatch('SELECT_PROJECT', { project });
+    },
   },
 
   directives: {
@@ -104,35 +114,41 @@ export default {
   list-style-type: none;
 }
 
-.project-item {
+.project-list-item {
   display: flex;
-  padding: 8px;
+  padding: 3px;
   color: #494949;
   margin: 8px;
   vertical-align: middle;
+  border-left: 3px solid transparent;
 }
 
-.project-item:hover {
+.project-list-item.selected {
+  background-color: #7e57c2;
+  color: #fff;
+}
+
+.project-list-item:hover {
   border-left: 3px solid #7e57c2;
 }
 
-.project-item .view {
+.project-list-item .view {
   overflow: hidden;
 }
 
-.project-item .edit {
+.project-list-item .edit {
   display: none;
 }
 
-.project-item.editing .view {
+.project-list-item.editing .view {
   display: none;
 }
 
-.project-item.editing .edit {
+.project-list-item.editing .edit {
   display: flex;
 }
 
-.project-item input {
+.project-list-item input {
   flex: 1;
   line-height: 35px;
   font-size: 23px;

@@ -1,6 +1,6 @@
 <template>
   <div id="login">
-    <div class="login__wrapper">
+    <div class="login-wrapper">
       <h1>
         <i class="fa fa-clock-o fa-3x"></i>
       </h1>
@@ -45,7 +45,7 @@ export default {
   background-color: #7e57c2;
 }
 
-.login__wrapper {
+.login-wrapper {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -61,5 +61,12 @@ export default {
 
 .btn-login {
   width: 100%;
+  background-color: #4d2c91;
+  border-color: #4d2c91;
+}
+
+.btn-login:hover {
+  background-color: #401F84;
+  border-color: #401F84;
 }
 </style>

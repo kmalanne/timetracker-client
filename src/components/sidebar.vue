@@ -2,10 +2,12 @@
   <div id="sidebar">
     <div class="sidebar-wrapper">
       <div class="sidebar-content">
-        <div class="header">
+        <div class="sidebar-header">
           <h2>Projects</h2>
+          <div class="new-item-btn">
+            <newItemButton action="CREATE_PROJECT" item="New project"/>
+          </div>
         </div>
-        <newProjectButton/>
         <projectList/>
       </div>
     </div>
@@ -13,12 +15,12 @@
 </template>
 
 <script>
-import newProjectButton from './newProjectButton';
+import newItemButton from './newItemButton';
 import projectList from './projectList';
 
 export default {
   name: 'sidebar',
-  components: { newProjectButton, projectList },
+  components: { newItemButton, projectList },
 };
 </script>
 
@@ -42,10 +44,21 @@ export default {
   height: 100%
 }
 
+.sidebar-header {
+  position: relative;
+}
+
 h2 {
   background-color: #7e57c2;
   padding-left: 60px;
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.new-item-btn {
+  position: absolute;
+  left: 33px;
+  top: 74px;
+  transform: translateY(-50%) translateX(-50%);
 }
 </style>
