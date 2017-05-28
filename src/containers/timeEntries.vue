@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="timeEntries">
+  <div class="timeEntries">
     Time entries
   </div>
 </template>

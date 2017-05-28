@@ -1,7 +1,5 @@
 <template lang="html">
-  <button class="new-item-btn"
-    @click="click()">+
-  </button>
+  <button type="button" class="btn-new-item" @click="click()">+</button>
 </template>
 
 <script>
@@ -18,7 +16,7 @@ export default {
 </script>
 
 <style scoped>
-.new-item-btn {
+.btn-new-item {
   padding-bottom: 8px;
   width: 50px;
   height: 50px;
@@ -31,7 +29,7 @@ export default {
   color: #fff;
 }
 
-.new-item-btn:hover {
+.btn-new-item:hover {
   background-color: #401F84;
   transition: background-color 0.2s ease-out;
 }

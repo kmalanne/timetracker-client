@@ -1,20 +1,22 @@
 <template lang="html">
-  <div id="home">
+  <div class="home">
     <sidebar/>
+    <contentArea/>
   </div>
 </template>
 
 <script>
 import sidebar from '@/components/sidebar';
+import contentArea from '@/components/contentArea';
 
 export default {
   name: 'home',
-  components: { sidebar },
+  components: { sidebar, contentArea },
 };
 </script>
 
 <style>
-#home {
+.home {
   display: flex;
   flex: 1;
   background-color: #eceff1;

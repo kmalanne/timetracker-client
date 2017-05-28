@@ -19,7 +19,8 @@ export default {
 <style>
 html,
 body {
-  height: 100%
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .content {

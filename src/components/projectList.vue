@@ -1,7 +1,13 @@
 <template lang="html">
-  <div id="project-list">
-    <div class="project-list">
-      <div class="project-list-item" v-for="project in projects" 
+  <div class="project-list">
+    <div class="project-list-header">
+      <h2>Projects</h2>
+      <div class="new-project-btn">
+        <newItemButton action="CREATE_PROJECT" item="New project"/>
+      </div>
+    </div>
+    <div class="project-list-wrapper">
+      <div class="project-list-item" v-for="project in projects"
         :class="{ editing: project == editedProject, selected: project == selectedProject }">
         <div class="view" @click="selectProject(project)">
           <h4 @dblclick="editProject(project)">{{ project.name }}</h4>
@@ -19,8 +25,11 @@
 </template>
 
 <script>
+import newItemButton from './newItemButton';
+
 export default {
   name: 'projectList',
+  components: { newItemButton },
 
   // computed: {
   //   projects() {
@@ -102,11 +111,30 @@ export default {
 </script>
 
 <style scoped>
-#project-list {
+.project-list {
   display: flex;
+  flex-direction: column;
 }
 
-.project-list {
+.project-list-header {
+  position: relative;
+}
+
+.project-list-header h2 {
+  background-color: #7e57c2;
+  padding-left: 60px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.new-project-btn {
+  position: absolute;
+  left: 33px;
+  top: 74px;
+  transform: translateY(-50%) translateX(-50%);
+}
+
+.project-list-wrapper {
   flex: 1 1 auto;
   padding: 5px;
   margin-top: 15px;
@@ -118,7 +146,7 @@ export default {
   display: flex;
   padding: 3px;
   color: #494949;
-  margin: 8px;
+  margin: 8px 4px;
   vertical-align: middle;
   border-left: 3px solid transparent;
 }

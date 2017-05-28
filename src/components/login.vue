@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div class="login">
     <div class="login-wrapper">
       <h1>
         <i class="fa fa-clock-o fa-3x"></i>
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style>
-#login {
+.login {
   width: 100%;
   height: calc(100vh + 56px);
   background-color: #7e57c2;
