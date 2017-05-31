@@ -1,17 +1,17 @@
 <template lang="html">
   <div class="home">
-    <sidebar/>
-    <contentArea/>
+    <projectList/>
+    <stopwatch/>
   </div>
 </template>
 
 <script>
-import sidebar from '@/components/sidebar';
-import contentArea from '@/components/contentArea';
+import projectList from '@/components/projectList';
+import stopwatch from '@/components/stopwatch';
 
 export default {
   name: 'home',
-  components: { sidebar, contentArea },
+  components: { projectList, stopwatch },
 };
 </script>
 

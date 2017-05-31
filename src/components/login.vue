@@ -61,6 +61,7 @@ export default {
 
 .btn-login {
   width: 100%;
+  border-radius: 100px;
   background-color: #4d2c91;
   border-color: #4d2c91;
 }

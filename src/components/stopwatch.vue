@@ -4,7 +4,6 @@
       {{ hours }} : {{ minutes }} : {{ seconds }}
     </div>
     <button type="button" class="btn btn-primary btn-start-stop"
-      :class="{ running: running }"
       @click="toggleStopwatch()">
       {{ buttonText }}
     </button>
@@ -19,18 +18,18 @@ function padZero(number) {
   return number;
 }
 
-function getHours(timeElapsed) {
-  const hours = parseInt((timeElapsed / (1000 * 60 * 60)) % 24, 10);
+function getHours(time) {
+  const hours = parseInt((time / (1000 * 60 * 60)) % 24, 10);
   return padZero(hours);
 }
 
-function getMinutes(timeElapsed) {
-  const minutes = parseInt((timeElapsed / (1000 * 60)) % 60, 10);
+function getMinutes(time) {
+  const minutes = parseInt((time / (1000 * 60)) % 60, 10);
   return padZero(minutes);
 }
 
-function getSeconds(timeElapsed) {
-  const seconds = parseInt((timeElapsed / 1000) % 60, 10);
+function getSeconds(time) {
+  const seconds = parseInt((time / 1000) % 60, 10);
   return padZero(seconds);
 }
 
@@ -45,6 +44,7 @@ export default {
       buttonText: 'Start',
       running: false,
       startTime: null,
+      elapsedTime: null,
       interval: null,
     };
   },
@@ -58,6 +58,8 @@ export default {
         }, 1000);
       } else {
         clearInterval(this.interval);
+        this.$store.dispatch('STOP_STOPWATCH', this.elapsedTime);
+        this.resetTime();
       }
 
       this.running = !this.running;
@@ -65,10 +67,17 @@ export default {
     },
 
     updatimeTime() {
-      const timeElapsed = new Date() - this.startTime;
-      this.hours = getHours(timeElapsed);
-      this.minutes = getMinutes(timeElapsed);
-      this.seconds = getSeconds(timeElapsed);
+      this.elapsedTime = new Date() - this.startTime;
+      this.hours = getHours(this.elapsedTime);
+      this.minutes = getMinutes(this.elapsedTime);
+      this.seconds = getSeconds(this.elapsedTime);
+    },
+
+    resetTime() {
+      this.elapsedTime = null;
+      this.hours = '00';
+      this.minutes = '00';
+      this.seconds = '00';
     },
   },
 };
@@ -79,11 +88,26 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+  align-items: center;
+  justify-content: center;
   margin: 20px;
 }
 
 .stopwatch-time {
   font-size: 130px;
   text-align: center;
+}
+
+.btn-start-stop {
+  width: 140px;
+  height: 40px;
+  border-radius: 100px;
+  background-color: #4d2c91;
+  border-color: #4d2c91;
+}
+
+.btn-start-stop:hover {
+  background-color: #401F84;
+  border-color: #401F84;
 }
 </style>

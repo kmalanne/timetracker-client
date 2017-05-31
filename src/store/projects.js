@@ -34,11 +34,11 @@ const actions = {
     });
   },
 
-  CREATE_PROJECT: ({ commit, rootGetters }, { item }) => {
+  CREATE_PROJECT: ({ commit, rootGetters }, { project }) => {
     axios.post('/projects', {
       params: {
         uid: rootGetters.userId,
-        name: item,
+        name: project,
       },
     }).then((response) => {
       commit('ADD_PROJECT', { project: response.data });
