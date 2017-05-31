@@ -26,3 +26,11 @@ npm run unit
 npm test
 ```
 
+## Authentication
+
+Authentication using Auth0. Add following rows to `config/*.env.js`:
+
+```
+AUTH0_CLIENT_ID: '"your_client_id"',
+AUTH0_DOMAIN: '"your_domain"'
+```
