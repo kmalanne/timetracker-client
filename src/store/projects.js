@@ -65,7 +65,7 @@ const actions = {
   },
 
   SELECT_PROJECT: ({ commit }, { project }) => {
-    commit('SELECT_PROJECT', project);
+    commit('SELECT_PROJECT', { project });
   },
 };
 

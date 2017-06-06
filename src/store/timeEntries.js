@@ -25,7 +25,7 @@ const actions = {
     });
   },
 
-  STOP_STOPWATCH: ({ commit, rootGetters }, elapsedTime) => {
+  CREATE_TIME_ENTRY: ({ commit, rootGetters }, elapsedTime) => {
     axios.post('/timeEntries', {
       params: {
         uid: rootGetters.userId,

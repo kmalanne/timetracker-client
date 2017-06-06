@@ -8,14 +8,14 @@
         </div>
         <div class="project-list-item-wrapper">
           <div class="project-list-item" v-for="project in projects"
-            :class="{ editing: project == editedProject, selected: project == selectedProject }">
+            :class="{ editing: project === edited, selected: project && selectedProject && project.id === selectedProject.id }">
             <div class="view" @click="selectProject(project)">
               <h4 @dblclick="editProject(project)">{{ project.name }}</h4>
               <h6>{{ project.url }}</h6>
             </div>
               <input class="edit" type="text"
               v-model="project.name"
-              v-project-focus="project == editedProject"
+              v-project-focus="project == edited"
               @blur="doneEdit(project)"
               @keyup.enter="doneEdit(project)"
               @keyup.esc="cancelEdit(project)">
@@ -30,12 +30,6 @@
 export default {
   name: 'projectList',
 
-  // computed: {
-  //   projects() {
-  //     return this.$store.state.projects;
-  //   },
-  // },
-
   mounted() {
     this.loadProjects();
   },
@@ -43,9 +37,18 @@ export default {
   data() {
     return {
       projects: [],
-      editedProject: null,
-      selectedProject: null,
+      edited: null,
+      selected: null,
     };
+  },
+
+  computed: {
+    // projects() {
+    //     return this.$store.state.projects;
+    //   },
+    selectedProject() {
+      return this.$store.getters.selectedProject;
+    },
   },
 
   methods: {
@@ -70,20 +73,20 @@ export default {
     },
 
     click() {
-      this.$store.dispatch('CREATE_PROJECT', { project: this.selectedProject });
+      this.$store.dispatch('CREATE_PROJECT', { project: 'new project' });
     },
 
     editProject(project) {
       this.beforeEditCache = project.name;
-      this.editedProject = project;
+      this.edited = project;
     },
 
     doneEdit(project) {
-      if (!this.editedProject) {
+      if (!this.edited) {
         return;
       }
 
-      this.editedProject = null;
+      this.edited = null;
       project.name = project.name.trim();
       if (!project.name) {
         // Delete project?
@@ -93,12 +96,11 @@ export default {
     },
 
     cancelEdit(project) {
-      this.editedProject = null;
+      this.edited = null;
       project.name = this.beforeEditCache;
     },
 
     selectProject(project) {
-      this.selectedProject = project;
       this.$store.dispatch('SELECT_PROJECT', { project });
     },
   },
@@ -179,7 +181,6 @@ export default {
   color: #494949;
   margin: 8px 4px;
   vertical-align: middle;
-  border-left: 3px solid transparent;
 }
 
 .project-list-item.selected {

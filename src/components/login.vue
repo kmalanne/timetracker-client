@@ -7,10 +7,10 @@
       <h1 class="login-title">TimeTracker</h1>
       <form>
         <div class="form-group">
-          <input type="email" class="form-control" v-model="email" placeholder="your@email.com">
+          <input type="email" class="form-control" @keyup.enter="login()" v-model="email" placeholder="your@email.com">
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" v-model="password" placeholder="Password">
+          <input type="password" class="form-control" @keyup.enter="login()" v-model="password" placeholder="Password">
         </div>
         <button type="button" class="btn btn-primary btn-login" @click="login()">Log in</button>
       </form>
