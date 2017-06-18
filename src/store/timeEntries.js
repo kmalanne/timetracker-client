@@ -11,34 +11,32 @@ const mutations = {
 };
 
 const actions = {
-  LOAD_TIME_ENTRIES: ({ commit, rootGetters }) => {
-    axios.get('/timeEntries', {
-      params: {
-        uid: rootGetters.userId,
-      },
-    }).then((response) => {
+  LOAD_TIME_ENTRIES: async ({ commit, rootGetters }) => {
+    try {
+      const response = await axios.get('/timeEntries', {
+        params: {
+          uid: rootGetters.userId,
+        },
+      });
       commit('SET_TIME_ENTRIES', { timeEntries: response.data });
-    }, (err) => {
-      if (err) {
-        // TODO handle error
-      }
-    });
+    } catch (err) {
+      // TODO handle error
+    }
   },
 
-  CREATE_TIME_ENTRY: ({ commit, rootGetters }, elapsedTime) => {
-    axios.post('/timeEntries', {
-      params: {
-        uid: rootGetters.userId,
-        pid: rootGetters.selectedProject.id,
-        elapsedTime,
-      },
-    }).then((response) => {
+  CREATE_TIME_ENTRY: async ({ commit, rootGetters }, elapsedTime) => {
+    try {
+      const response = await axios.post('/timeEntries', {
+        params: {
+          uid: rootGetters.userId,
+          pid: rootGetters.selectedProject.id,
+          elapsedTime,
+        },
+      });
       commit('ADD_TIME_ENTRY', { timeEntry: response.data });
-    }, (err) => {
-      if (err) {
-        // TODO handle error
-      }
-    });
+    } catch (err) {
+      // TODO handle error
+    }
   },
 };
 

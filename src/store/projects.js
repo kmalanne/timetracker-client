@@ -20,48 +20,48 @@ const mutations = {
 };
 
 const actions = {
-  LOAD_PROJECT_LIST: ({ commit, rootGetters }) => {
-    axios.get('/projects', {
-      params: {
-        uid: rootGetters.userId,
-      },
-    }).then((response) => {
+  LOAD_PROJECT_LIST: async ({ commit, rootGetters }) => {
+    try {
+      const response = await axios.get('/projects', {
+        params: {
+          uid: rootGetters.userId,
+        },
+      });
+
       commit('SET_PROJECT_LIST', { list: response.data });
-    }, (err) => {
-      if (err) {
-        // TODO handle error
-      }
-    });
+    } catch (err) {
+      // TODO handle error
+    }
   },
 
-  CREATE_PROJECT: ({ commit, rootGetters }, { project }) => {
-    axios.post('/projects', {
-      params: {
-        uid: rootGetters.userId,
-        name: project,
-      },
-    }).then((response) => {
+  CREATE_PROJECT: async ({ commit, rootGetters }, { project }) => {
+    try {
+      const response = await axios.post('/projects', {
+        params: {
+          uid: rootGetters.userId,
+          name: project,
+        },
+      });
+
       commit('ADD_PROJECT', { project: response.data });
-    }, (err) => {
-      if (err) {
-        // TODO handle error
-      }
-    });
+    } catch (err) {
+      // TODO handle error
+    }
   },
 
-  UPDATE_PROJECT: ({ commit }, { project }) => {
-    axios.put(`/projects/${project.id}`, {
-      params: {
-        name: project.name,
-        url: project.url,
-      },
-    }).then((response) => {
+  UPDATE_PROJECT: async ({ commit }, { project }) => {
+    try {
+      const response = await axios.put(`/projects/${project.id}`, {
+        params: {
+          name: project.name,
+          url: project.url,
+        },
+      });
+
       commit('UPDATE_PROJECT', { project: response.data });
-    }, (err) => {
-      if (err) {
-        // TODO handle error
-      }
-    });
+    } catch (err) {
+      // TODO handle error
+    }
   },
 
   SELECT_PROJECT: ({ commit }, { project }) => {

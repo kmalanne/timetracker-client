@@ -7,7 +7,7 @@
         </div>
         <div v-else>
           00 : 00 : 00
-        </div>        
+        </div>
       </div>
       <button type="button" class="btn btn-primary btn-start-stop"
         @click="toggleStopwatch()">
@@ -77,7 +77,7 @@ export default {
   flex: 1;
   align-items: center;
   justify-content: center;
-  margin: 20px;
+  margin: 20px 20px 20px 10px;
   background-color: #fff;
 }
 
@@ -105,5 +105,8 @@ export default {
 .btn-start-stop:hover {
   background-color: #401F84;
   border-color: #401F84;
+  transition: background-color 0.2s ease-out;
+  transform: scale(1.05);
+  transition: transform 0.3s ease-out;
 }
 </style>

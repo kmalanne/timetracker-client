@@ -41,7 +41,7 @@ export default {
 <style>
 .login {
   width: 100%;
-  height: calc(100vh + 56px);
+  height: 100vh;
   background-color: #7e57c2;
 }
 

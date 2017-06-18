@@ -127,7 +127,7 @@ export default {
   height: 100%;
   background-color: #fff;
   color: #fff;
-  margin: 20px;
+  margin: 20px 10px 20px 20px;
 }
 
 .project-list-content {
@@ -165,6 +165,8 @@ export default {
 .btn-new-project:hover {
   background-color: #401F84;
   transition: background-color 0.2s ease-out;
+  transform: translateY(-50%) translateX(-50%) scale(1.05);
+  transition: transform 0.3s ease-out;
 }
 
 .project-list-item-wrapper {
