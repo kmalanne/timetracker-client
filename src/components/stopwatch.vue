@@ -97,7 +97,7 @@ export default {
 .btn-start-stop {
   width: 140px;
   height: 40px;
-  border-radius: 100px;
+  border-radius: 20px;
   background-color: #4d2c91;
   border-color: #4d2c91;
 }
