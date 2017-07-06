@@ -1,21 +1,31 @@
 <template>
   <div class="login">
     <div class="login-wrapper">
-      <h1>
-        <i class="fa fa-clock-o fa-3x"></i>
-      </h1>
-      <h1 class="login-title">TimeTracker</h1>
-      <form>
-        <div class="form-group">
-          <input type="email" class="form-control" @keyup.enter="login()" v-model="email" placeholder="your@email.com">
-        </div>
-        <div class="form-group">
-          <input type="password" class="form-control" @keyup.enter="login()" v-model="password" placeholder="Password">
-        </div>
-        <button type="button" class="btn btn-primary btn-login" @click="login()">Log in</button>
-      </form>
+  
+      <md-card class="login-card">
+  
+        <md-card-header>
+          <div class="md-title">Login</div>
+        </md-card-header>
+  
+        <md-card-content>
+          <form>
+            <md-input-container>
+              <label>Email</label>
+              <md-textarea v-model="email"></md-textarea>
+            </md-input-container>
+            <md-input-container @keyup.enter="login()">
+              <label>Password</label>
+              <md-input type="password" v-model="password"></md-input>
+            </md-input-container>
+          </form>
+        </md-card-content>
+  
+        <md-button class="md-raised md-primary" @click="login()">Go</md-button>
+  
+      </md-card>
+  
     </div>
-  </div>
   </div>
 </template>
 
@@ -42,7 +52,7 @@ export default {
 .login {
   width: 100%;
   height: 100vh;
-  background-color: #7e57c2;
+  background-color: #ffc1e3;
 }
 
 .login-wrapper {
@@ -50,24 +60,13 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
-  padding: 10px;
-  color: #fff;
 }
 
-.login-title {
-  margin-bottom: 20px;
+.login-card {
+  width: 350px;
 }
 
-.btn-login {
-  width: 100%;
-  border-radius: 100px;
-  background-color: #4d2c91;
-  border-color: #4d2c91;
-}
-
-.btn-login:hover {
-  background-color: #401F84;
-  border-color: #401F84;
+.md-card .md-card-content {
+  padding-bottom: 8px;
 }
 </style>

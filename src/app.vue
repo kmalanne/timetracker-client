@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="app">
-    <navbar/>
+    <toolbar/>
     <div class="content">
       <router-view/>
     </div>
@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import navbar from './components/navbar';
+import toolbar from './components/toolbar';
 
 export default {
   name: 'app',
-  components: { navbar },
+  components: { toolbar },
 };
 </script>
 
@@ -21,11 +21,17 @@ html,
 body {
   height: 100%;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%
 }
 
 .content {
   display: flex;
-  height: calc(100vh - 56px);
+  flex: 1;
+  background-color: #eceff1;
 }
 </style>

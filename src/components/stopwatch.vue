@@ -1,22 +1,24 @@
 <template lang="html">
-  <div class="stopwatch">
-    <div v-if="selectedProject" class="stopwatch-content">
-      <div class="stopwatch-time">
-        <div v-if="running">
-          {{ hours }} : {{ minutes }} : {{ seconds }}
-        </div>
-        <div v-else>
-          00 : 00 : 00
-        </div>
-      </div>
-      <button type="button" class="btn btn-primary btn-start-stop"
-        @click="toggleStopwatch()">
-        {{ running ? 'STOP' : 'START' }}
-      </button>
+  <div v-if="selectedProject" class="stopwatch-content">
+    <div v-if="running">
+      <span class="md-display-3">
+        {{ hours }} : {{ minutes }} : {{ seconds }}
+      </span>
+      <md-button md-theme="red" class="md-fab md-primary stopwatch-btn" @click="toggleStopwatch()">
+        <md-icon>stop</md-icon>
+      </md-button>
     </div>
     <div v-else>
-      <h1>Choose an item</h1>
+      <span class="md-display-3">
+        00 : 00 : 00
+      </span>
+      <md-button md-theme="green" class="md-fab md-primary stopwatch-btn" @click="toggleStopwatch()">
+        <md-icon>play_arrow</md-icon>
+      </md-button>
     </div>
+  </div>
+  <div v-else>
+     <span class="md-display-3">Choose a project</span>
   </div>
 </template>
 
@@ -47,6 +49,7 @@ export default {
   methods: {
     toggleStopwatch() {
       if (!this.running) {
+        this.updatimeTime(true);
         this.startTime = new Date();
         this.interval = setInterval(() => {
           this.updatimeTime();
@@ -60,53 +63,18 @@ export default {
       this.running = !this.running;
     },
 
-    updatimeTime() {
+    updatimeTime(reset = false) {
       this.elapsedTime = new Date() - this.startTime;
-      this.hours = getHours(this.elapsedTime);
-      this.minutes = getMinutes(this.elapsedTime);
-      this.seconds = getSeconds(this.elapsedTime);
+      this.hours = reset ? '00' : getHours(this.elapsedTime);
+      this.minutes = reset ? '00' : getMinutes(this.elapsedTime);
+      this.seconds = reset ? '00' : getSeconds(this.elapsedTime);
     },
   },
 };
 </script>
 
 <style scoped>
-.stopwatch {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 20px 20px 10px;
-  background-color: #fff;
-}
-
-.stopwatch-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-}
-
-.stopwatch-time {
-  font-size: 130px;
-  text-align: center;
-}
-
-.btn-start-stop {
-  width: 140px;
-  height: 40px;
-  border-radius: 20px;
-  background-color: #4d2c91;
-  border-color: #4d2c91;
-}
-
-.btn-start-stop:hover {
-  background-color: #401F84;
-  border-color: #401F84;
-  transition: background-color 0.2s ease-out;
-  transform: scale(1.05);
-  transition: transform 0.3s ease-out;
+.stopwatch-btn {
+  margin-top: 0px;
 }
 </style>

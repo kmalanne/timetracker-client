@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="timeEntries">
+  <div class="reports">
     <timeEntryList/>
   </div>
 </template>
@@ -8,13 +8,13 @@
 import timeEntryList from '@/components/timeEntryList';
 
 export default {
-  name: 'timeEntries',
+  name: 'reports',
   components: { timeEntryList },
 };
 </script>
 
 <style>
-.timeEntries {
+.reports {
   display: flex;
   flex: 1;
   background-color: #eceff1;

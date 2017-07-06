@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import { requireAuth } from '@/auth';
 import home from '@/containers/home';
-import timeEntries from '@/containers/timeEntries';
+import projects from '@/containers/projects';
+import reports from '@/containers/reports';
 import login from '@/components/login';
 
 Vue.use(Router);
@@ -20,9 +21,15 @@ const routes = [
     beforeEnter: requireAuth,
   },
   {
-    path: '/timeEntries',
-    name: 'timeEntries',
-    component: timeEntries,
+    path: '/reports',
+    name: 'reports',
+    component: reports,
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/projects',
+    name: 'projects',
+    component: projects,
     beforeEnter: requireAuth,
   },
 ];

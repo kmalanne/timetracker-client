@@ -25,6 +25,7 @@ const requireAuth = (to, from, next) => {
           if (userErr) {
             // TODO handle error
           }
+
           store.dispatch('SET_PROFILE', user);
 
           // User information is needed for loading initial data and components are
