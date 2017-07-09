@@ -1,15 +1,15 @@
 <template lang="html">
   <div class="reports">
-    <timeEntryList/>
+    <report/>
   </div>
 </template>
 
 <script>
-import timeEntryList from '@/components/timeEntryList';
+import report from '@/components/report';
 
 export default {
   name: 'reports',
-  components: { timeEntryList },
+  components: { report },
 };
 </script>
 

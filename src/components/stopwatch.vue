@@ -1,5 +1,4 @@
 <template lang="html">
-  <div v-if="selectedProject" class="stopwatch-content">
     <div v-if="running">
       <span class="md-display-3">
         {{ hours }} : {{ minutes }} : {{ seconds }}
@@ -12,14 +11,10 @@
       <span class="md-display-3">
         00 : 00 : 00
       </span>
-      <md-button md-theme="green" class="md-fab md-primary stopwatch-btn" @click="toggleStopwatch()">
+      <md-button md-theme="green" class="md-fab md-primary stopwatch-btn" @click="toggleStopwatch()" v-bind:disabled="!selectedProject">
         <md-icon>play_arrow</md-icon>
       </md-button>
     </div>
-  </div>
-  <div v-else>
-     <span class="md-display-3">Choose a project</span>
-  </div>
 </template>
 
 <script>
@@ -55,6 +50,7 @@ export default {
           this.updatimeTime();
         }, 1000);
       } else {
+        // const stopTime = new Date();
         clearInterval(this.interval);
         this.$store.dispatch('CREATE_TIME_ENTRY', this.elapsedTime);
         this.elapsedTime = null;

@@ -41,6 +41,13 @@ const actions = {
 };
 
 const getters = {
+  timeEntries: (state) => {
+    if (state.timeEntries) {
+      return state.timeEntries;
+    }
+
+    return undefined;
+  },
 };
 
 const state = {

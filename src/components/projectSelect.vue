@@ -22,15 +22,6 @@ export default {
     };
   },
 
-  computed: {
-    // projects() {
-    //     return this.$store.state.projects;
-    //   },
-    selectedProject() {
-      return this.$store.getters.selectedProject;
-    },
-  },
-
   methods: {
     loadProjects() {
       this.projects = [
@@ -56,7 +47,3 @@ export default {
   },
 };
 </script>
-
-<style>
-
-</style>

@@ -39,7 +39,8 @@ const actions = {
       const response = await axios.post('/projects', {
         params: {
           uid: rootGetters.userId,
-          name: project,
+          name: project.name,
+          url: project.url,
         },
       });
 
