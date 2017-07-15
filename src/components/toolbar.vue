@@ -9,10 +9,19 @@
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="leftSidenav">
-      <md-toolbar class="md-large">
-        <div class="md-toolbar-container">
-          <h3 class="md-title">Menu</h3>
-        </div>
+      <md-toolbar class="md-account-header">
+        <md-list class="md-transparent">
+          <md-list-item class="md-avatar-list"> 
+            <md-avatar class="md-large">
+              <img :src="avatarImage" alt="People">
+            </md-avatar>
+          </md-list-item>
+          <md-list-item>
+            <div class="md-list-text-container">
+              <span>Menu</span>
+            </div>
+          </md-list-item>
+        </md-list>
       </md-toolbar>
 
       <md-list>
@@ -36,6 +45,12 @@
 <script>
 export default {
   name: 'toolbar',
+
+  computed: {
+    avatarImage() {
+      return this.$store.getters.avatar;
+    },
+  },
 
   methods: {
     logout() {

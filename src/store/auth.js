@@ -74,8 +74,14 @@ const getters = {
     if (state.profile) {
       return state.profile.identities[0].user_id;
     }
-
     return '';
+  },
+
+  avatar: (state) => {
+    if (state.profile) {
+      return state.profile.picture;
+    }
+    return undefined;
   },
 };
 
