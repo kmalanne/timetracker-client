@@ -1,30 +1,31 @@
 <template>
   <div class="login">
     <div class="login-wrapper">
-  
       <md-card class="login-card">
-  
         <md-card-header>
           <div class="md-title">Login</div>
         </md-card-header>
   
         <md-card-content>
           <form>
-            <md-input-container>
-              <label>Email</label>
-              <md-textarea v-model="email"></md-textarea>
+            <md-input-container :class="{'md-input-invalid': errors.has('email')}">
+              <label for="email">Email</label>
+              <md-input v-model="credentials.email" data-vv-name="email" type="email" v-validate name="email" data-vv-rules="required|email"></md-input>
+              <span class="md-error">{{errors.first('email')}}</span>
             </md-input-container>
-            <md-input-container @keyup.enter="login()">
-              <label>Password</label>
-              <md-input type="password" v-model="password"></md-input>
+  
+            <md-input-container :class="{'md-input-invalid': errors.has('password')}">
+              <label for="password">Password</label>
+              <md-input v-model="credentials.password" data-vv-name="password" type="password" v-validate name="password" data-vv-rules="required"></md-input>
+              <span class="md-error">{{errors.first('password')}}</span>
             </md-input-container>
           </form>
         </md-card-content>
   
-        <md-button class="md-raised md-primary" @click="login()">Go</md-button>
-  
+        <md-card-actions>
+          <md-button class="md-raised md-primary" @click="login()">Go</md-button>
+        </md-card-actions>
       </md-card>
-  
     </div>
   </div>
 </template>
@@ -35,14 +36,23 @@ export default {
 
   data() {
     return {
-      email: '',
-      password: '',
+      credentials: {
+        email: '',
+        password: '',
+      },
     };
   },
 
   methods: {
-    login() {
-      this.$store.dispatch('LOGIN', { email: this.email, password: this.password });
+    async login() {
+      const result = await this.$validator.validateAll();
+      if (!result) {
+        // eslint-disable-next-line
+        return;
+      }
+
+      this.$store.dispatch('LOGIN',
+        { email: this.credentials.email, password: this.credentials.password });
     },
   },
 };
@@ -64,9 +74,5 @@ export default {
 
 .login-card {
   width: 350px;
-}
-
-.md-card .md-card-content {
-  padding-bottom: 8px;
 }
 </style>

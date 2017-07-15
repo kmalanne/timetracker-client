@@ -1,6 +1,5 @@
 <template lang="html">
   <div class="toolbar" v-if="isLoggedIn()">
-
     <md-toolbar>
       <md-button class="md-icon-button" @click="toggleLeftSidenav">
         <md-icon>menu</md-icon>
@@ -10,7 +9,6 @@
     </md-toolbar>
 
     <md-sidenav class="md-left" ref="leftSidenav">
-      
       <md-toolbar class="md-large">
         <div class="md-toolbar-container">
           <h3 class="md-title">Menu</h3>
@@ -31,7 +29,6 @@
           <span>Projects</span>
         </md-list-item>
       </md-list>
-
     </md-sidenav>
   </div>
 </template>

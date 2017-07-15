@@ -1,9 +1,9 @@
-function padZero(number) {
+const padZero = (number) => {
   if (number < 10) {
     return `0${number}`;
   }
   return number;
-}
+};
 
 const getHours = (time) => {
   const hours = parseInt((time / (1000 * 60 * 60)) % 24, 10);

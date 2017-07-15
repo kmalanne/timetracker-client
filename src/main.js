@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import VueMaterial from 'vue-material';
 import 'vue-material/dist/vue-material.css';
+import VeeValidate from 'vee-validate';
 import axios from 'axios';
 import app from './app';
 import router from './router';
@@ -10,6 +11,7 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
+Vue.use(VeeValidate);
 Vue.use(VueMaterial);
 
 Vue.material.registerTheme({

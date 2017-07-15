@@ -65,6 +65,8 @@ const actions = {
     }
   },
 
+  // TODO DELETE_PROJECT
+
   SELECT_PROJECT: ({ commit }, { project }) => {
     commit('SELECT_PROJECT', { project });
   },
@@ -78,6 +80,8 @@ const getters = {
 
     return undefined;
   },
+
+  projects: state => state.projects,
 };
 
 const state = {
