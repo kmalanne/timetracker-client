@@ -30,7 +30,7 @@ const requireAuth = (to, from, next) => {
 
           // User information is needed for loading initial data and components are
           // mounted before userInfo is gotten from Auth0 so loading is done here.
-          store.dispatch('LOAD_PROJECT_LIST');
+          store.dispatch('AUTHENTICATION_SUCCESS');
         });
 
         return '/';
