@@ -23,9 +23,9 @@
 
         <md-table-body>
           <md-table-row v-for="(row, rowIndex) in projects" :key="rowIndex" :md-item="row" md-selection>
-            <md-table-cell v-for="(column, columnIndex) in row" :key="columnIndex">
+            <md-table-cell v-if="columnIndex !== 'id' && columnIndex !== 'user'" v-for="(column, columnIndex) in row" :key="columnIndex">
               {{ column }}
-              <md-button class="md-icon-button" v-if="columnIndex === 'created'" @click.native="onEditClick(row)">
+              <md-button class="md-icon-button" v-if="columnIndex === 'created_at'" @click.native="onEditClick(row)">
                 <md-icon>edit</md-icon>
               </md-button>
             </md-table-cell>
@@ -36,7 +36,7 @@
 
     <md-dialog ref="dialog">
       <md-dialog-title>
-        <span v-if="editable">Edit project</span>
+        <span v-if="isEdit">Edit project</span>
         <span v-else>New project</span>
       </md-dialog-title>
 
@@ -74,35 +74,25 @@ export default {
 
   data() {
     return {
-      projects: [],
+      isEdit: false,
       selected: [],
-      editable: null,
       project: {
+        id: null,
         name: '',
         url: '',
       },
     };
   },
 
+  computed: {
+    projects() {
+      return this.$store.getters.projects;
+    },
+  },
+
   methods: {
     loadProjects() {
-      this.projects = [
-        {
-          name: 'loooooooooooooooongproject',
-          url: 'www.derp.com',
-          created: '2017-01-01',
-        },
-        {
-          name: 'project',
-          url: 'www.derp.com',
-          created: '2017-01-01',
-        },
-        {
-          name: 'project2',
-          url: 'www.derp.com',
-          created: '2017-01-01',
-        },
-      ];
+      this.$store.dispatch('LOAD_PROJECTS');
     },
 
     onSelect(selected) {
@@ -114,16 +104,15 @@ export default {
     },
 
     onEditClick(project) {
-      this.editable = project;
+      this.isEdit = true;
+      this.project.id = project.id;
       this.project.name = project.name;
       this.project.url = project.url;
       this.$refs.dialog.open();
     },
 
     onDeleteClick() {
-      this.selected.map(s =>
-        this.$store.dispatch('DELETE_PROJECT', this.$store.getters.projectId(s.name)),
-      );
+      this.selected.forEach(s => this.$store.dispatch('DELETE_PROJECT', s.id));
     },
 
     async onSubmitDialogClick() {
@@ -133,12 +122,14 @@ export default {
         return;
       }
 
-      if (this.editable) {
-        const id = this.$store.getters.projects.find(p => p.name === (this.editable.name));
-        this.$store.dispatch('UPDATE_PROJECT', { id, name: this.name, url: this.url });
+      if (this.isEdit) {
+        this.$store.dispatch('UPDATE_PROJECT',
+          { id: this.project.id, name: this.project.name, url: this.project.url },
+        );
       } else {
-        this.$store.dispatch('CREATE_PROJECT', { name: this.name, url: this.url });
-        this.projects.push({ name: this.project.name, url: this.project.url, created: new Date() });
+        this.$store.dispatch('CREATE_PROJECT',
+          { name: this.project.name, url: this.project.url },
+        );
       }
 
       this.closeDialog();
@@ -149,7 +140,8 @@ export default {
     },
 
     closeDialog() {
-      this.editable = null;
+      this.isEdit = false;
+      this.project.id = null;
       this.project.name = '';
       this.project.url = '';
       this.$refs.dialog.close();

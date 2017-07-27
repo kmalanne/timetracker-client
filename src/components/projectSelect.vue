@@ -17,31 +17,23 @@ export default {
 
   data() {
     return {
-      projects: [],
       selected: null,
     };
   },
 
+  computed: {
+    projects() {
+      return this.$store.getters.projects;
+    },
+  },
+
   methods: {
     loadProjects() {
-      this.projects = [
-        {
-          id: 'id',
-          name: 'loooooooooooooooongproject',
-        },
-        {
-          id: 'id2',
-          name: 'project',
-        },
-        {
-          id: 'id3',
-          name: 'project2',
-        },
-      ];
+      this.$store.dispatch('LOAD_PROJECTS');
     },
 
     onChange() {
-      const project = this.projects.find(p => p.id === this.selected);
+      const project = this.$store.getters.projects.find(p => p.id === this.selected);
       this.$store.dispatch('SELECT_PROJECT', { project });
     },
   },

@@ -20,40 +20,15 @@ export default {
     this.loadTimeEntries();
   },
 
-  data() {
-    return {
-      timeEntries: [],
-    };
-  },
-
   computed: {
-    // timeEntries() {
-    //     return this.$store.getters.timeEntries;
-    //   },
+    timeEntries() {
+      return this.$store.getters.timeEntries;
+    },
   },
 
   methods: {
     loadTimeEntries() {
-      this.timeEntries = [
-        {
-          project: 'loooooooooooooooongproject',
-          elapsedTime: 'elapsed',
-          startTime: 'start',
-          stopTime: 'stop',
-        },
-        {
-          name: 'project',
-          elapsedTime: 'elapsed',
-          startTime: 'start',
-          stopTime: 'stop',
-        },
-        {
-          name: 'project2',
-          elapsedTime: 'elapsed',
-          startTime: 'start',
-          stopTime: 'stop',
-        },
-      ];
+      this.$store.dispatch('LOAD_TIME_ENTRIES');
     },
   },
 };
