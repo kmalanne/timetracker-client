@@ -8,6 +8,7 @@ import axios from 'axios';
 import app from './app';
 import router from './router';
 import store from './store';
+import { formatDateISOString, formatTimeInMs } from './util/time';
 
 Vue.config.productionTip = false;
 
@@ -39,6 +40,22 @@ Vue.material.registerTheme({
   red: {
     primary: 'red',
   },
+});
+
+Vue.filter('formatDate', (value) => {
+  if (value) {
+    return formatDateISOString(value);
+  }
+
+  return '';
+});
+
+Vue.filter('formatTime', (value) => {
+  if (value) {
+    return formatTimeInMs(value);
+  }
+
+  return '';
 });
 
 axios.defaults.baseURL = 'http://localhost:3000';

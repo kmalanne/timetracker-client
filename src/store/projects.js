@@ -19,7 +19,7 @@ const mutations = {
   },
 
   UPDATE_PROJECT: (state, project) => {
-    const idx = state.projects.findIndex(p => p === project.id);
+    const idx = state.projects.findIndex(p => p.id === project.id);
     state.projects.splice(idx, 1, project);
   },
 };

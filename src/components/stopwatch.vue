@@ -50,9 +50,18 @@ export default {
           this.updatimeTime();
         }, 1000);
       } else {
-        // const stopTime = new Date();
+        const stopTime = new Date();
         clearInterval(this.interval);
-        this.$store.dispatch('CREATE_TIME_ENTRY', this.elapsedTime);
+        this.$store.dispatch('CREATE_TIME_ENTRY',
+          {
+            elapsedTime: this.elapsedTime,
+            startTime: this.startTime,
+            stopTime,
+          },
+        );
+
+        this.$store.dispatch('LOAD_TIME_ENTRIES');
+
         this.elapsedTime = null;
       }
 

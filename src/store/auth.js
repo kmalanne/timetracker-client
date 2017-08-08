@@ -42,7 +42,6 @@ const mutations = {
 const actions = {
   AUTHENTICATION_SUCCESS: (store) => {
     store.dispatch('LOAD_PROJECTS');
-    store.dispatch('LOAD_TIME_ENTRIES');
   },
 
   LOGIN: ({ commit }, payload) => {

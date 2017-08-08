@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="home">
-    <div class="content-wrapper">
+    <div class="timer-wrapper">
       <div class="project-select">
         <projectSelect/>
       </div>
@@ -35,7 +35,7 @@ export default {
   background-color: #fff;
 }
 
-.content-wrapper {
+.timer-wrapper {
   display: flex;
   flex-direction: row;
 }
@@ -53,6 +53,7 @@ export default {
 }
 
 .time-entry-list {
+  display: flex;
   margin-top: 30px;
 }
 </style>

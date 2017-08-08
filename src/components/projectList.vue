@@ -24,7 +24,8 @@
         <md-table-body>
           <md-table-row v-for="(row, rowIndex) in projects" :key="rowIndex" :md-item="row" md-selection>
             <md-table-cell v-if="columnIndex !== 'id' && columnIndex !== 'user'" v-for="(column, columnIndex) in row" :key="columnIndex">
-              {{ column }}
+              <span v-if="columnIndex === 'created_at'">{{ column | formatDate }}</span>
+              <span v-if="columnIndex !== 'created_at'">{{ column }}</span>
               <md-button class="md-icon-button" v-if="columnIndex === 'created_at'" @click.native="onEditClick(row)">
                 <md-icon>edit</md-icon>
               </md-button>
