@@ -34,3 +34,6 @@ Authentication using Auth0. Add following rows to `config/*.env.js`:
 AUTH0_CLIENT_ID: '"your_client_id"',
 AUTH0_DOMAIN: '"your_domain"'
 ```
+
+## Acknowledgements
+This project is a grateful recipient of the [Futurice Open Source sponsorship program](http://futurice.com/blog/sponsoring-free-time-open-source-activities).
