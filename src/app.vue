@@ -4,15 +4,17 @@
     <div class="content">
       <router-view/>
     </div>
+    <snackbar/>
   </div>
 </template>
 
 <script>
 import toolbar from './components/toolbar';
+import snackbar from './components/snackbar';
 
 export default {
   name: 'app',
-  components: { toolbar },
+  components: { toolbar, snackbar },
 };
 </script>
 

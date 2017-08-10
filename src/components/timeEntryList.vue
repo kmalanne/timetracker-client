@@ -23,7 +23,6 @@
 
     <md-table-pagination
     md-size="limit"
-    md-total="size"
     md-page="page"
     md-label="Rows"
     md-separator="of"
@@ -60,12 +59,11 @@ export default {
 
   methods: {
     loadTimeEntries() {
-      this.$store.dispatch('LOAD_TIME_ENTRIES');
+      this.$store.dispatch('LOAD_TIME_ENTRIES', {});
     },
 
     onPagination(event) {
-      this.$store.dispatch('SET_TIME_ENTRY_PAGINATION_PARAMS', { page: event.page, limit: event.size });
-      this.$store.dispatch('LOAD_TIME_ENTRIES');
+      this.$store.dispatch('LOAD_TIME_ENTRIES', { page: event.page, limit: event.size });
     },
   },
 };

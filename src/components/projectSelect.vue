@@ -11,14 +11,14 @@
 export default {
   name: 'projectSelect',
 
-  mounted() {
-    this.loadProjects();
-  },
-
   data() {
     return {
       selected: null,
     };
+  },
+
+  mounted() {
+    this.loadProjects();
   },
 
   computed: {

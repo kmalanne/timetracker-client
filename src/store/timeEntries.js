@@ -1,37 +1,41 @@
 import axios from 'axios';
 
 const mutations = {
-  SET_TIME_ENTRIES: (state, timeEntries) => {
+  SET_TIME_ENTRIES: (state, payload) => {
+    const { timeEntries } = payload;
     state.timeEntries = timeEntries;
   },
 
-  ADD_TIME_ENTRY: (state, timeEntry) => {
-    state.timeEntries = [...state.timeEntries, timeEntry];
-  },
-
-  SET_TIME_ENTRY_PAGINATION_PARAMS: (state, { page, limit }) => {
+  SET_PAGINATION: (state, payload) => {
+    const { page, limit, size } = payload;
     state.page = page;
     state.limit = limit;
+    state.size = size || 10;
   },
 };
 
 const actions = {
-  LOAD_TIME_ENTRIES: async ({ commit, state }) => {
+  LOAD_TIME_ENTRIES: async ({ commit, state, dispatch }, { page, limit }) => {
     try {
+      const currentPage = page || state.page;
+      const currentLimit = limit || state.limit;
+
       const response = await axios.get('/timeEntries', {
         params: {
-          page: state.page,
-          limit: state.limit,
+          page: currentPage,
+          limit: currentLimit,
         },
       });
+
       commit('SET_TIME_ENTRIES', response.data);
+      commit('SET_PAGINATION', { page: currentPage, limit: currentLimit, size: response.data.total });
     } catch (err) {
-      // TODO handle error
+      dispatch('SET_NOTIFICATION', { notification: 'Loading time entries failed' });
     }
   },
 
   CREATE_TIME_ENTRY: async (
-    { commit, rootGetters },
+    { commit, dispatch, rootGetters },
     { elapsedTime, startTime, stopTime }) => {
     try {
       await axios.post('/timeEntries', {
@@ -43,12 +47,8 @@ const actions = {
         },
       });
     } catch (err) {
-      // TODO handle error
+      dispatch('SET_NOTIFICATION', { notification: 'Creating time entry failed' });
     }
-  },
-
-  SET_TIME_ENTRY_PAGINATION_PARAMS: async ({ commit }, { page, limit }) => {
-    commit('SET_TIME_ENTRY_PAGINATION_PARAMS', { page, limit });
   },
 };
 

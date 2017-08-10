@@ -1,31 +1,36 @@
 import axios from 'axios';
 
 const mutations = {
-  ADD_PROJECT: (state, project) => {
+  ADD_PROJECT: (state, payload) => {
+    const { project } = payload;
     state.projects = [...state.projects, project];
   },
 
-  DELETE_PROJECT: (state, id) => {
+  DELETE_PROJECT: (state, payload) => {
+    const { id } = payload;
     const idx = state.projects.findIndex(p => p.id === id);
     state.projects.splice(idx, 1);
   },
 
-  SELECT_PROJECT: (state, { project }) => {
+  SELECT_PROJECT: (state, payload) => {
+    const { project } = payload;
     state.selectedProject = project;
   },
 
-  SET_PROJECTS: (state, projects) => {
+  SET_PROJECTS: (state, payload) => {
+    const { projects } = payload;
     state.projects = projects;
   },
 
-  UPDATE_PROJECT: (state, project) => {
+  UPDATE_PROJECT: (state, payload) => {
+    const { project } = payload;
     const idx = state.projects.findIndex(p => p.id === project.id);
     state.projects.splice(idx, 1, project);
   },
 };
 
 const actions = {
-  CREATE_PROJECT: async ({ commit }, { name, url }) => {
+  CREATE_PROJECT: async ({ commit, dispatch }, { name, url }) => {
     try {
       const response = await axios.post('/projects', {
         params: {
@@ -35,30 +40,30 @@ const actions = {
       });
 
       if (response.data.length !== 0) {
-        commit('ADD_PROJECT', response.data[0]);
+        commit('ADD_PROJECT', { project: response.data[0] });
       }
     } catch (err) {
-      // TODO handle error
+      dispatch('SET_NOTIFICATION', { notification: 'Creating new project failed' });
     }
   },
 
-  DELETE_PROJECT: async ({ commit }, id) => {
+  DELETE_PROJECT: async ({ commit, dispatch }, id) => {
     try {
       const response = await axios.delete(`/projects/${id}`);
       if (response.data) {
-        commit('DELETE_PROJECT', response.data);
+        commit('DELETE_PROJECT', { id: response.data });
       }
     } catch (err) {
-      // TODO handle error
+      dispatch('SET_NOTIFICATION', { notification: 'Deleting project(s) failed' });
     }
   },
 
-  LOAD_PROJECTS: async ({ commit }) => {
+  LOAD_PROJECTS: async ({ commit, dispatch }) => {
     try {
       const response = await axios.get('/projects');
-      commit('SET_PROJECTS', response.data);
+      commit('SET_PROJECTS', { projects: response.data });
     } catch (err) {
-      // TODO handle error
+      dispatch('SET_NOTIFICATION', { notification: 'Loading projects failed' });
     }
   },
 
@@ -66,7 +71,7 @@ const actions = {
     commit('SELECT_PROJECT', { project });
   },
 
-  UPDATE_PROJECT: async ({ commit }, project) => {
+  UPDATE_PROJECT: async ({ commit, dispatch }, project) => {
     try {
       const response = await axios.put(`/projects/${project.id}`, {
         params: {
@@ -76,10 +81,10 @@ const actions = {
       });
 
       if (response.data.length !== 0) {
-        commit('UPDATE_PROJECT', response.data[0]);
+        commit('UPDATE_PROJECT', { project: response.data[0] });
       }
     } catch (err) {
-      // TODO handle error
+      dispatch('SET_NOTIFICATION', { notification: 'Updating project failed' });
     }
   },
 };

@@ -69,10 +69,6 @@
 export default {
   name: 'projectList',
 
-  mounted() {
-    this.loadProjects();
-  },
-
   data() {
     return {
       isEdit: false,
@@ -83,6 +79,10 @@ export default {
         url: '',
       },
     };
+  },
+
+  mounted() {
+    this.loadProjects();
   },
 
   computed: {

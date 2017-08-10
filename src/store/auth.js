@@ -44,7 +44,7 @@ const actions = {
     store.dispatch('LOAD_PROJECTS');
   },
 
-  LOGIN: ({ commit }, payload) => {
+  LOGIN: ({ commit, dispatch }, payload) => {
     auth0.redirect.loginWithCredentials({
       connection: 'Username-Password-Authentication',
       responseType: 'token id_token',
@@ -53,7 +53,7 @@ const actions = {
       scope: 'openid',
     }, (err) => {
       if (err) {
-        // TODO handle error
+        dispatch('SET_NOTIFICATION', { notification: err.description });
       }
     });
   },
