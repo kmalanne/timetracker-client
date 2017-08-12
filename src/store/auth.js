@@ -1,3 +1,4 @@
+import axios from 'axios';
 import decode from 'jwt-decode';
 import { auth0 } from '@/auth';
 
@@ -21,9 +22,11 @@ const isTokenExpired = (token) => {
 };
 
 const mutations = {
-  SET_TOKEN: (state, token) => {
-    state.token = token;
-    localStorage.setItem(ID_TOKEN, token);
+  LOGOUT: (state) => {
+    state.token = null;
+    state.profile = null;
+    localStorage.removeItem(ID_TOKEN);
+    localStorage.removeItem(PROFILE);
   },
 
   SET_PROFILE: (state, profile) => {
@@ -31,11 +34,9 @@ const mutations = {
     localStorage.setItem(PROFILE, JSON.stringify(profile));
   },
 
-  LOGOUT: (state) => {
-    state.token = null;
-    state.profile = null;
-    localStorage.removeItem(ID_TOKEN);
-    localStorage.removeItem(PROFILE);
+  SET_TOKEN: (state, token) => {
+    state.token = token;
+    localStorage.setItem(ID_TOKEN, token);
   },
 };
 
@@ -58,20 +59,44 @@ const actions = {
     });
   },
 
-  SET_TOKEN: ({ commit }, token) => {
-    commit('SET_TOKEN', token);
+  LOGOUT: ({ commit }) => {
+    commit('LOGOUT');
   },
 
   SET_PROFILE: ({ commit }, profile) => {
     commit('SET_PROFILE', profile);
   },
 
-  LOGOUT: ({ commit }) => {
-    commit('LOGOUT');
+  SET_TOKEN: ({ commit }, token) => {
+    commit('SET_TOKEN', token);
+  },
+
+  SIGNUP: async ({ commit, dispatch }, payload) => {
+    try {
+      const url = `https://${process.env.AUTH0_DOMAIN}/dbconnections/signup`;
+      const headers = { 'content-type': 'application/json' };
+
+      const response = await axios.post(url, {
+        client_id: process.env.AUTH0_CLIENT_ID,
+        email: payload.email,
+        password: payload.password,
+      }, headers);
+
+      console.log(response);
+    } catch (err) {
+      dispatch('SET_NOTIFICATION', { notification: err.description });
+    }
   },
 };
 
 const getters = {
+  avatar: (state) => {
+    if (state.profile) {
+      return state.profile.picture;
+    }
+    return undefined;
+  },
+
   isLoggedIn: state => !!state.token && !isTokenExpired(state.token),
 
   userId: (state) => {
@@ -80,18 +105,11 @@ const getters = {
     }
     return '';
   },
-
-  avatar: (state) => {
-    if (state.profile) {
-      return state.profile.picture;
-    }
-    return undefined;
-  },
 };
 
 const state = {
-  token: null,
   profile: null,
+  token: null,
 };
 
 export default {

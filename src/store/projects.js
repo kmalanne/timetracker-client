@@ -90,6 +90,8 @@ const actions = {
 };
 
 const getters = {
+  projects: state => state.projects,
+
   selectedProject: (state) => {
     if (state.selectedProject) {
       return state.selectedProject;
@@ -97,8 +99,6 @@ const getters = {
 
     return undefined;
   },
-
-  projects: state => state.projects,
 };
 
 const state = {

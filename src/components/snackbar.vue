@@ -15,10 +15,6 @@ export default {
     };
   },
 
-  mounted() {
-
-  },
-
   computed: {
     notification() {
       return this.$store.getters.notification;
