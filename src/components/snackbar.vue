@@ -1,5 +1,5 @@
 <template lang="html">
-  <md-snackbar ref="snackbarr" :md-duration="4000">
+  <md-snackbar ref="snackbar" :md-duration="4000">
     <span>{{ message }}</span>
     <md-button class="md-accent" @click="$refs.snackbar.close()">Close</md-button>
   </md-snackbar>
@@ -33,7 +33,7 @@ export default {
   methods: {
     open() {
       this.$nextTick(() => {
-        this.$refs.snackbarr.open();
+        this.$refs.snackbar.open();
       });
 
       this.$store.dispatch('SET_NOTIFICATION', { notification: null });

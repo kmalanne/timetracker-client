@@ -77,14 +77,17 @@ const actions = {
       const headers = { 'content-type': 'application/json' };
 
       const response = await axios.post(url, {
+        connection: 'Username-Password-Authentication',
         client_id: process.env.AUTH0_CLIENT_ID,
         email: payload.email,
         password: payload.password,
       }, headers);
 
-      console.log(response);
+      if (response.status === 200) {
+        dispatch('SET_NOTIFICATION', { notification: 'Successfully signed up!' });
+      }
     } catch (err) {
-      dispatch('SET_NOTIFICATION', { notification: err.description });
+      dispatch('SET_NOTIFICATION', { notification: 'Something went wrong!' });
     }
   },
 };
@@ -98,13 +101,6 @@ const getters = {
   },
 
   isLoggedIn: state => !!state.token && !isTokenExpired(state.token),
-
-  userId: (state) => {
-    if (state.profile) {
-      return state.profile.identities[0].user_id;
-    }
-    return '';
-  },
 };
 
 const state = {

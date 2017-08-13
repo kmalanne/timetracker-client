@@ -20,12 +20,10 @@ const actions = {
     { elapsedTime, startTime, stopTime }) => {
     try {
       await axios.post('/timeEntries', {
-        params: {
-          project: rootGetters.selectedProject.id,
-          elapsed_time: elapsedTime,
-          start_time: startTime.toISOString(),
-          stop_time: stopTime.toISOString(),
-        },
+        project: rootGetters.selectedProject.id,
+        elapsed_time: elapsedTime,
+        start_time: startTime.toISOString(),
+        stop_time: stopTime.toISOString(),
       });
     } catch (err) {
       dispatch('SET_NOTIFICATION', { notification: 'Creating time entry failed' });

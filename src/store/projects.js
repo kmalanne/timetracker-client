@@ -32,12 +32,7 @@ const mutations = {
 const actions = {
   CREATE_PROJECT: async ({ commit, dispatch }, { name, url }) => {
     try {
-      const response = await axios.post('/projects', {
-        params: {
-          name,
-          url,
-        },
-      });
+      const response = await axios.post('/projects', { name, url });
 
       if (response.data.length !== 0) {
         commit('ADD_PROJECT', { project: response.data[0] });
@@ -50,6 +45,7 @@ const actions = {
   DELETE_PROJECT: async ({ commit, dispatch }, id) => {
     try {
       const response = await axios.delete(`/projects/${id}`);
+
       if (response.data) {
         commit('DELETE_PROJECT', { id: response.data });
       }
@@ -73,12 +69,8 @@ const actions = {
 
   UPDATE_PROJECT: async ({ commit, dispatch }, project) => {
     try {
-      const response = await axios.put(`/projects/${project.id}`, {
-        params: {
-          name: project.name,
-          url: project.url,
-        },
-      });
+      const { name, url } = project;
+      const response = await axios.put(`/projects/${project.id}`, { name, url });
 
       if (response.data.length !== 0) {
         commit('UPDATE_PROJECT', { project: response.data[0] });
@@ -91,19 +83,12 @@ const actions = {
 
 const getters = {
   projects: state => state.projects,
-
-  selectedProject: (state) => {
-    if (state.selectedProject) {
-      return state.selectedProject;
-    }
-
-    return undefined;
-  },
+  selectedProject: state => state.selectedProject,
 };
 
 const state = {
   projects: [],
-  selectedProject: null,
+  selectedProject: undefined,
 };
 
 export default {
