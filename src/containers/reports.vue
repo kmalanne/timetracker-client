@@ -1,15 +1,15 @@
 <template lang="html">
   <div class="reports">
-    <report/>
+    <pieChart/>
   </div>
 </template>
 
 <script>
-import report from '@/components/report';
+import pieChart from '@/components/pieChart';
 
 export default {
   name: 'reports',
-  components: { report },
+  components: { pieChart },
 };
 </script>
 
@@ -18,5 +18,10 @@ export default {
   display: flex;
   flex: 1;
   background-color: #eceff1;
+
+
+
+  align-items: center;
+  justify-content: center;
 }
 </style>
