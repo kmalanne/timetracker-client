@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import auth from './auth';
 import notification from './notification';
 import projects from './projects';
+import reporting from './reporting';
 import timeEntries from './timeEntries';
 
 Vue.use(Vuex);
@@ -12,6 +13,7 @@ const store = new Vuex.Store({
     auth,
     notification,
     projects,
+    reporting,
     timeEntries,
   },
 });

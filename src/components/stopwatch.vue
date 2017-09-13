@@ -60,7 +60,7 @@ export default {
           },
         );
 
-        this.$store.dispatch('LOAD_TIME_ENTRIES', {});
+        this.$store.dispatch('FETCH_TIME_ENTRIES', {});
 
         this.elapsedTime = null;
       }

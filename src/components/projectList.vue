@@ -93,7 +93,7 @@ export default {
 
   methods: {
     loadProjects() {
-      this.$store.dispatch('LOAD_PROJECTS');
+      this.$store.dispatch('FETCH_PROJECTS');
     },
 
     onSelect(selected) {

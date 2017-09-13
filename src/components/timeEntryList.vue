@@ -59,11 +59,11 @@ export default {
 
   methods: {
     loadTimeEntries() {
-      this.$store.dispatch('LOAD_TIME_ENTRIES', {});
+      this.$store.dispatch('FETCH_TIME_ENTRIES', {});
     },
 
     onPagination(event) {
-      this.$store.dispatch('LOAD_TIME_ENTRIES', { page: event.page, limit: event.size });
+      this.$store.dispatch('FETCH_TIME_ENTRIES', { page: event.page, limit: event.size });
     },
   },
 };

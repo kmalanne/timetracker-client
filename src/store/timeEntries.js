@@ -9,8 +9,8 @@ const mutations = {
   },
 
   SET_TIME_ENTRIES: (state, payload) => {
-    const { timeEntries } = payload;
-    state.timeEntries = timeEntries;
+    const { data } = payload;
+    state.timeEntries = data;
   },
 };
 
@@ -30,7 +30,7 @@ const actions = {
     }
   },
 
-  LOAD_TIME_ENTRIES: async ({ commit, state, dispatch }, { page, limit }) => {
+  FETCH_TIME_ENTRIES: async ({ commit, state, dispatch }, { page, limit }) => {
     try {
       const currentPage = page || state.page;
       const currentLimit = limit || state.limit;

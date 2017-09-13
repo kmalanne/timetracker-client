@@ -18,8 +18,8 @@ const mutations = {
   },
 
   SET_PROJECTS: (state, payload) => {
-    const { projects } = payload;
-    state.projects = projects;
+    const { data } = payload;
+    state.projects = data;
   },
 
   UPDATE_PROJECT: (state, payload) => {
@@ -54,10 +54,10 @@ const actions = {
     }
   },
 
-  LOAD_PROJECTS: async ({ commit, dispatch }) => {
+  FETCH_PROJECTS: async ({ commit, dispatch }) => {
     try {
       const response = await axios.get('/projects');
-      commit('SET_PROJECTS', { projects: response.data });
+      commit('SET_PROJECTS', { data: response.data });
     } catch (err) {
       dispatch('SET_NOTIFICATION', { notification: 'Loading projects failed' });
     }
