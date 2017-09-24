@@ -6,8 +6,8 @@ const padZero = (number) => {
 };
 
 const getDatesArray = (startDate, endDate) => {
-  const addDays = (days) => {
-    const date = new Date(this.valueOf());
+  const addDays = (currentDate, days) => {
+    const date = new Date(currentDate);
     date.setDate(date.getDate() + days);
     return date;
   };
@@ -17,7 +17,7 @@ const getDatesArray = (startDate, endDate) => {
 
   while (currentDate <= endDate) {
     dates.push(currentDate);
-    currentDate = addDays.call(currentDate, 1);
+    currentDate = addDays(currentDate, 1);
   }
 
   return dates;
@@ -90,7 +90,7 @@ const formatTimeInMs = (milliseconds) => {
   const minutes = getMinutes(milliseconds);
   const seconds = getSeconds(milliseconds);
 
-  return `${hours}:${minutes}:${seconds}`;
+  return { hours, minutes, seconds };
 };
 
 export {

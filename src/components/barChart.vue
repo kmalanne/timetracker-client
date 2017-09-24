@@ -7,73 +7,53 @@ import * as d3 from 'd3';
 
 export default {
   name: 'barChart',
+  props: ['barData'],
 
   data() {
     return {
-      values: [
-        { label: 'derp', value: 10 },
-        { label: 'herp', value: 0 },
-        { label: 'lurp', value: 50 },
-        { label: 'lerp', value: 10 },
-        { label: 'durp', value: 10 },
-        { label: 'nerp', value: 5 },
-        { label: 'nyrp', value: 100 },
-        { label: 'derp', value: 10 },
-        { label: 'herp', value: 20 },
-        { label: 'lurp', value: 30 },
-        { label: 'lerp', value: 10 },
-        { label: 'durp', value: 4 },
-        { label: 'nerp', value: 10 },
-        { label: 'nyrp', value: 70 },
-        { label: 'derp', value: 10 },
-        { label: 'herp', value: 20 },
-        { label: 'lurp', value: 30 },
-        { label: 'lerp', value: 90 },
-        { label: 'durp', value: 10 },
-        { label: 'nerp', value: 80 },
-        { label: 'nyrp', value: 15 },
-        { label: 'derp', value: 25 },
-        { label: 'herp', value: 69 },
-        { label: 'lurp', value: 30 },
-        { label: 'lerp', value: 6 },
-        { label: 'durp', value: 8 },
-        { label: 'nerp', value: 45 },
-        { label: 'nyrp', value: 60 },
-      ],
+      values: [],
     };
   },
 
-  mounted() {
-    this.drawChart();
+  watch: {
+    barData() {
+      this.values = this.barData;
+      if (this.values.length !== 0) {
+        this.drawChart();
+      }
+    },
   },
 
   methods: {
     drawChart() {
-      // Pie
-      const valueAmount = this.values.length;
       const width = 900;
       const height = 200;
-      const barPadding = 2;
+
+      const x = d3.scaleBand()
+        .rangeRound([0, width])
+        .padding(0.05);
+      const y = d3.scaleLinear()
+        .range([height, 0]);
 
       const svg = d3.select('#bar')
         .append('svg')
         .attr('width', width)
-        .attr('height', height);
+        .attr('height', height)
+        .append('g');
 
-      svg.selectAll('rect')
+      x.domain(this.values.map(v => v.label));
+      y.domain([0, d3.max(this.values, v => v.value)]);
+
+      svg.selectAll('bar')
         .data(this.values)
         .enter()
         .append('rect')
-        .attr('x', (d, i) => i * (width / valueAmount))
-        .attr('y', d => height - d.value)
-        .attr('width', (width / valueAmount) - barPadding)
-        .attr('height', d => d.value)
-        .attr('fill', '#f48fb1');
+        .style('fill', '#f48fb1')
+        .attr('x', d => x(d.label))
+        .attr('width', x.bandwidth())
+        .attr('y', d => y(d.value))
+        .attr('height', d => height - y(d.value));
     },
   },
 };
 </script>
-
-<style>
-
-</style>

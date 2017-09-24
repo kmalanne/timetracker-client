@@ -52,7 +52,8 @@ Vue.filter('formatDate', (value) => {
 
 Vue.filter('formatTime', (value) => {
   if (value) {
-    return formatTimeInMs(value);
+    const time = formatTimeInMs(value);
+    return `${time.hours}:${time.minutes}:${time.seconds}`;
   }
 
   return '';

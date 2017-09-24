@@ -7,30 +7,21 @@ import * as d3 from 'd3';
 
 export default {
   name: 'pieChart',
-  props: ['chartData'],
-
-  computed: {
-    values() {
-      return this.chartData;
-    },
-  },
+  props: ['pieData'],
 
   data() {
     return {
-      values: [
-        { label: 'derp', value: 10 },
-        { label: 'herp', value: 20 },
-        { label: 'lurp', value: 30 },
-        { label: 'lerp', value: 10 },
-        { label: 'durp', value: 10 },
-        { label: 'nerp', value: 10 },
-        { label: 'nyrp', value: 10 },
-      ],
+      values: [],
     };
   },
 
-  mounted() {
-    this.drawChart();
+  watch: {
+    pieData() {
+      this.values = this.pieData;
+      if (this.values.length !== 0) {
+        this.drawChart();
+      }
+    },
   },
 
   methods: {

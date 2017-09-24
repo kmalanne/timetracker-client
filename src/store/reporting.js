@@ -8,7 +8,7 @@ const mutations = {
 };
 
 const actions = {
-  FETCH_DATA: async ({ commit, state, dispatch }, { startDate, endDate }) => {
+  FETCH_REPORT_DATA: async ({ commit, state, dispatch }, { startDate, endDate }) => {
     try {
       const response = await axios.get('/timeEntries', {
         params: {
