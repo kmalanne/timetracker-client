@@ -61,8 +61,8 @@ export default {
       g.append('path')
         .style('fill', d => color(d.data.label))
         .transition()
-        .delay((d, i) => i * 100)
-        .duration(100)
+        .delay((d, i) => i * 200)
+        .duration(200)
         .attrTween('d', (d) => {
           const i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
           return (t) => {

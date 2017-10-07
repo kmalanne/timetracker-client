@@ -35,6 +35,12 @@ export default {
     };
   },
 
+  beforeDestroy() {
+    if (this.running) {
+      this.stopTime();
+    }
+  },
+
   computed: {
     selectedProject() {
       return this.$store.getters.selectedProject;
@@ -50,22 +56,26 @@ export default {
           this.updatimeTime();
         }, 1000);
       } else {
-        const stopTime = new Date();
-        clearInterval(this.interval);
-        this.$store.dispatch('CREATE_TIME_ENTRY',
-          {
-            elapsedTime: this.elapsedTime,
-            startTime: this.startTime,
-            stopTime,
-          },
-        );
-
-        this.$store.dispatch('FETCH_TIME_ENTRIES', {});
-
-        this.elapsedTime = null;
+        this.stopTime();
       }
 
       this.running = !this.running;
+    },
+
+    stopTime() {
+      const stopTime = new Date();
+      clearInterval(this.interval);
+      this.$store.dispatch('CREATE_TIME_ENTRY',
+        {
+          elapsedTime: this.elapsedTime,
+          startTime: this.startTime,
+          stopTime,
+        },
+      );
+
+      this.$store.dispatch('FETCH_TIME_ENTRIES', {});
+
+      this.elapsedTime = null;
     },
 
     updatimeTime(reset = false) {

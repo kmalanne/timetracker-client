@@ -1,16 +1,43 @@
 <template lang="html">
   <div class="reports">
-    <div class="chartContainer">
-      <div class="h2">
-        {{periodTotal}}
-      </div>
-      <div class="pie">
-        <pieChart :pieData="pieData"></pieChart>
-      </div>
+    <div class="chart-row-container">
+
+      <md-whiteframe md-tag="section" class="whiteframe-column">
+        <div v-if="periodTotal === ''" class="empty-report">
+          <h1>No data available for this period</h1>
+        </div>
+        <div v-else class="period-total">
+          <h1>{{periodTotal}}</h1>
+        </div>
+      </md-whiteframe>
+
+      <md-whiteframe md-tag="section" class="whiteframe-column">
+        <md-list class="md-double-line">
+          <md-list-item v-for="item in listData" :key="item.name">
+            <div class="md-list-text-container">
+              <div id="textrow">
+                <p class="alignleft">{{item.name}}</p>
+                <p class="alignright">{{item.elapsedTime}}</p>
+              </div>
+              <!-- <span> - </span> -->
+              <span>{{item.url}}</span>
+            </div>
+          </md-list-item>
+        </md-list>
+      </md-whiteframe>
+      
+      <md-whiteframe md-tag="section" class="whiteframe-column whiteframe-column-last">
+        <div class="pie">
+          <pieChart :pieData="pieData"></pieChart>
+        </div>
+      </md-whiteframe>
     </div>
-    <div class="bar">
-      <barChart :barData="barData"></barChart>
-    </div>
+
+    <md-whiteframe md-tag="section" class="whiteframe-row">
+      <div class="bar">
+        <barChart :barData="barData"></barChart>
+      </div>
+    </md-whiteframe>
   </div>
 </template>
 
@@ -26,6 +53,13 @@ export default {
   data() {
     return {
       periodTotal: '',
+      listData: [
+        {
+          name: '',
+          url: '',
+          elapsedTime: '',
+        },
+      ],
       barData: [],
       pieData: [],
     };
@@ -39,26 +73,55 @@ export default {
     async initializeData() {
       const range = getSpiceReportingRange();
       await this.$store.dispatch('FETCH_REPORT_DATA', range);
-      this.periodTotal = this.calculatePeriodTotal();
-      this.barData = this.calculateBarData(range);
-      this.pieData = this.calculatePieData();
-    },
-
-    calculatePeriodTotal() {
       const reportData = this.$store.getters.reportData;
 
-      const total = reportData.reduce((acc, val) => acc + parseInt(val.elapsed_time, 10), 0);
+      this.periodTotal = this.getPeriodTotal(reportData);
 
+      if (this.periodTotal !== '') {
+        this.listData = this.getListData(reportData);
+        this.barData = this.getBarData(reportData, range);
+        this.pieData = this.getPieData(reportData);
+      }
+    },
+
+    getPeriodTotal(reportData) {
+      if (reportData.length === 0) {
+        return '';
+      }
+
+      const total = reportData.reduce((acc, val) => acc + parseInt(val.elapsed_time, 10), 0);
       const time = formatTimeInMs(total);
 
       return `${time.hours}h ${time.minutes}min ${time.seconds}s`;
     },
 
-    calculateBarData(range) {
-      const dates = getDatesArray(range.startDate, range.endDate);
+    getListData(reportData) {
+      const projectTotals = reportData.reduce((acc, val) => {
+        const name = val.name;
+        const url = val.url;
+        const elapsedTime = parseInt(val.elapsed_time, 10);
 
-      const reportData = this.$store.getters.reportData;
+        const idx = acc.findIndex(a => a.name === name && a.url === url);
 
+        if (idx !== -1) {
+          acc[idx].elapsedTime += elapsedTime;
+        } else {
+          acc.push({ name, url, elapsedTime });
+        }
+        return acc;
+      }, []);
+
+      const listData = projectTotals.map((p) => {
+        const time = formatTimeInMs(p.elapsedTime);
+        const elapsedTime = `${time.hours}h ${time.minutes}min`;
+
+        return { name: p.name, url: p.url, elapsedTime };
+      });
+
+      return listData;
+    },
+
+    getBarData(reportData, range) {
       const timeEntryData = reportData.reduce((acc, val) => {
         const date = val.created_at.split('T')[0];
         const elapsedTime = parseInt(val.elapsed_time, 10) / 1000;
@@ -71,9 +134,11 @@ export default {
         return acc;
       }, {});
 
+      const dates = getDatesArray(range.startDate, range.endDate);
+
       const barData = dates.reduce((acc, val) => {
         const date = val.toISOString().split('T')[0];
-        const timeEntry = timeEntryData[date] ? timeEntryData[date] : 0.1;
+        const timeEntry = timeEntryData[date] ? timeEntryData[date] : 0.5;
         acc.push({ label: date, value: timeEntry });
         return acc;
       }, []);
@@ -81,10 +146,8 @@ export default {
       return barData;
     },
 
-    calculatePieData() {
-      const reportData = this.$store.getters.reportData;
-
-      const projectData = reportData.reduce((acc, val) => {
+    getPieData(reportData) {
+      const projectTotals = reportData.reduce((acc, val) => {
         const name = val.name;
         const elapsedTime = parseInt(val.elapsed_time, 10) / 1000;
 
@@ -97,8 +160,8 @@ export default {
       }, {});
 
       const pieData = [];
-      Object.keys(projectData).forEach(key =>
-        pieData.push({ label: key, value: projectData[key] }),
+      Object.keys(projectTotals).forEach(key =>
+        pieData.push({ label: key, value: projectTotals[key] }),
       );
 
       return pieData;
@@ -107,20 +170,65 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .reports {
   display: flex;
   flex-direction: column;
   flex: 1;
-  margin: 20px 20px;
+}
+
+.empty-report {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  padding: 30px;
+}
+
+.chart-row-container {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+
+.md-whiteframe {
+  padding: 10px;
   background-color: #fff;
 }
 
-.chartContainer {
+.whiteframe-column {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 0px 10px 0px 0px;
+}
 
-  padding: 30px;
+.whiteframe-column-last {
+  margin-right: 0px
+}
+
+.whiteframe-row {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 20px 20px 20px;
+}
+
+.period-total {
+  margin: auto;
+}
+
+.md-list {
+  flex-grow: 1;
+}
+
+.alignleft {
+  float: left;
+  margin-bottom: 0px;
+}
+
+.alignright {
+  float: right;
+  margin-bottom: 0px;
 }
 </style>

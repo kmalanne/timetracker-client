@@ -39,10 +39,10 @@ const getSeconds = (time) => {
 };
 
 const getSpiceReportingRange = () => {
-  const currentDate = new Date();
-  const currentDay = currentDate.getDay();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
+  const date = new Date();
+  const currentDate = date.getDate();
+  const currentMonth = date.getMonth() + 1;
+  const currentYear = date.getFullYear();
 
   let startMonth = currentMonth;
   let startYear = currentYear;
@@ -50,7 +50,7 @@ const getSpiceReportingRange = () => {
   let endMonth = currentMonth + 1;
   let endYear = currentYear;
 
-  if (currentDay < 25) {
+  if (currentDate < 25) {
     if (currentMonth === 1) {
       startMonth = 12;
       endMonth = 1;
@@ -61,14 +61,14 @@ const getSpiceReportingRange = () => {
     }
   }
 
-  if (currentDay >= 25 && currentMonth === 12) {
+  if (currentDate >= 25 && currentMonth === 12) {
     startMonth = 12;
     endMonth = 1;
     endYear = currentYear + 1;
   }
 
-  const startDate = new Date(startYear, startMonth, 25, 12, 0, 0);
-  const endDate = new Date(endYear, endMonth, 25, 12, 0, 0);
+  const startDate = new Date(startYear, startMonth - 1, 25, 12, 0, 0);
+  const endDate = new Date(endYear, endMonth - 1, 25, 12, 0, 0);
 
   return { startDate, endDate };
 };

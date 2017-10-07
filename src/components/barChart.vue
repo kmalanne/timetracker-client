@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="bar"></div>
+  <div id="bar" ref="barr"></div>
 </template>
 
 <script>
@@ -26,8 +26,7 @@ export default {
 
   methods: {
     drawChart() {
-      const width = 900;
-      const height = 200;
+      const { width, height } = this.updateDimensions();
 
       const x = d3.scaleBand()
         .rangeRound([0, width])
@@ -48,11 +47,28 @@ export default {
         .data(this.values)
         .enter()
         .append('rect')
-        .style('fill', '#f48fb1')
+        .attr('y', height)
+        .attr('height', 0)
         .attr('x', d => x(d.label))
         .attr('width', x.bandwidth())
+        .style('fill', '#f48fb1')
+        .transition()
+        .duration(700)
+        .attr('height', height)
         .attr('y', d => y(d.value))
-        .attr('height', d => height - y(d.value));
+        .style('fill', '#f48fb1');
+    },
+
+    updateDimensions() {
+      const top = 20;
+      const right = 50;
+      const left = 50;
+      const bottom = 20;
+
+      const width = window.innerWidth - left - right;
+      const height = 350 - top - bottom;
+
+      return { width, height };
     },
   },
 };
