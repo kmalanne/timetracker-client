@@ -59,7 +59,7 @@ Vue.filter('formatTime', (value) => {
   return '';
 });
 
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = process.env.API_URL || 'http://localhost:3000';
 
 /* eslint-disable no-new */
 new Vue({
