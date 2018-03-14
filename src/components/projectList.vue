@@ -81,10 +81,6 @@ export default {
     };
   },
 
-  mounted() {
-    this.loadProjects();
-  },
-
   computed: {
     projects() {
       return this.$store.getters.projects;
@@ -92,10 +88,6 @@ export default {
   },
 
   methods: {
-    loadProjects() {
-      this.$store.dispatch('FETCH_PROJECTS');
-    },
-
     onSelect(selected) {
       this.selected = selected;
     },
@@ -124,13 +116,16 @@ export default {
       }
 
       if (this.isEdit) {
-        this.$store.dispatch('UPDATE_PROJECT',
-          { id: this.project.id, name: this.project.name, url: this.project.url },
-        );
+        this.$store.dispatch('UPDATE_PROJECT', {
+          id: this.project.id,
+          name: this.project.name,
+          url: this.project.url,
+        });
       } else {
-        this.$store.dispatch('CREATE_PROJECT',
-          { name: this.project.name, url: this.project.url },
-        );
+        this.$store.dispatch('CREATE_PROJECT', {
+          name: this.project.name,
+          url: this.project.url,
+        });
       }
 
       this.closeDialog();

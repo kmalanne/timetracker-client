@@ -43,6 +43,7 @@ const mutations = {
 const actions = {
   AUTHENTICATION_SUCCESS: (store) => {
     store.dispatch('FETCH_PROJECTS');
+    store.dispatch('FETCH_TIME_ENTRIES');
   },
 
   LOGIN: ({ commit, dispatch }, payload) => {
