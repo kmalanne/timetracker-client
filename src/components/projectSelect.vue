@@ -17,10 +17,6 @@ export default {
     };
   },
 
-  mounted() {
-    this.loadProjects();
-  },
-
   computed: {
     projects() {
       return this.$store.getters.projects;
@@ -28,12 +24,10 @@ export default {
   },
 
   methods: {
-    loadProjects() {
-      this.$store.dispatch('FETCH_PROJECTS');
-    },
-
     onChange() {
-      const project = this.$store.getters.projects.find(p => p.id === this.selected);
+      const project = this.$store.getters.projects.find(
+        p => p.id === this.selected
+      );
       this.$store.dispatch('SELECT_PROJECT', { project });
     },
   },
