@@ -100,5 +100,5 @@ export {
   getSeconds,
   getSpiceReportingRange,
   formatDateISOString,
-  formatTimeInMs,
+  formatTimeInMs
 };

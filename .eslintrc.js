@@ -30,14 +30,19 @@ module.exports = {
       'vue': 'never'
     }],
     // allow param reassign to enable vuex state change
-    "no-param-reassign": [2, {
-      "props": false
+    'no-param-reassign': [2, {
+      'props': false
     }],
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {
       'optionalDependencies': ['test/unit/index.js']
     }],
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'comma-dangle': ['error', {
+      'arrays': 'always-multiline',
+      'objects': 'always-multiline',
+      'functions': 'ignore'
+    }]
   }
 }

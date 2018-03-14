@@ -47,5 +47,5 @@ const requireAuth = (to, from, next) => {
 
 export {
   auth0,
-  requireAuth,
+  requireAuth
 };
