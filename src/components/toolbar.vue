@@ -44,18 +44,18 @@
 
 <script>
 export default {
-  name: "toolbar",
+  name: 'toolbar',
 
   computed: {
     avatarImage() {
       return this.$store.getters.avatar;
-    }
+    },
   },
 
   methods: {
     logout() {
-      this.$store.dispatch("LOGOUT");
-      this.$router.push("/");
+      this.$store.dispatch('LOGOUT');
+      this.$router.push('/');
     },
 
     isLoggedIn() {
@@ -69,8 +69,8 @@ export default {
     routeTo(path) {
       this.$router.push({ path });
       this.toggleLeftSidenav();
-    }
-  }
+    },
+  },
 };
 </script>
 
