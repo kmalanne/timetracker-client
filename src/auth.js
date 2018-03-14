@@ -36,7 +36,7 @@ const requireAuth = (to, from, next) => {
         return '/';
       }
 
-      return '/login';
+      return '/home';
     });
 
     next({ path });
