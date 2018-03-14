@@ -10,12 +10,12 @@ Vue.use(Router);
 
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     component: login,
   },
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: home,
     beforeEnter: requireAuth,
