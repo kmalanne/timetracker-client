@@ -31,6 +31,10 @@ const actions = {
   },
 
   FETCH_TIME_ENTRIES: async ({ commit, state, dispatch }, { page, limit }) => {
+    if (!axios.defaults.headers.common.Authorization) {
+      return;
+    }
+
     try {
       const currentPage = page || state.page;
       const currentLimit = limit || state.limit;

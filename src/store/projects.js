@@ -55,6 +55,10 @@ const actions = {
   },
 
   FETCH_PROJECTS: async ({ commit, dispatch }) => {
+    if (!axios.defaults.headers.common.Authorization) {
+      return;
+    }
+
     try {
       const response = await axios.get('/projects');
       commit('SET_PROJECTS', { data: response.data });

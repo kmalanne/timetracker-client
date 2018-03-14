@@ -35,6 +35,10 @@
 export default {
   name: 'timeEntryList',
 
+  mounted() {
+    this.loadTimeEntries();
+  },
+
   computed: {
     timeEntries() {
       return this.$store.getters.timeEntries;
@@ -54,6 +58,10 @@ export default {
   },
 
   methods: {
+    loadTimeEntries() {
+      this.$store.dispatch('FETCH_TIME_ENTRIES', {});
+    },
+
     onPagination(event) {
       this.$store.dispatch('FETCH_TIME_ENTRIES', {
         page: event.page,
