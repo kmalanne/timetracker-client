@@ -31,7 +31,7 @@ export default {
     loadProjects() {
       this.$store.dispatch('FETCH_PROJECTS');
     },
-    
+
     onChange() {
       const project = this.$store.getters.projects.find(
         p => p.id === this.selected
